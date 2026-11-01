@@ -14,6 +14,11 @@ sources:
   - { doc_key: "factorium/src/server/core/hive/rrf.ts", title: "score bands after the bge-m3 cutover, 2026-09-29" }
   - { doc_key: "~/.factorium/logs/retrieval-eval.jsonl", title: "v2 probe set, 52 queries, 2026-10-31" }
   - { doc_key: "hive chat #356, #390, #391", title: "exact-name measurement; per-source shape, verified" }
+audio:
+  src: media/audio/rrf-versus-hybrid.m4a
+  title: RRF versus true hybrid RAG search
+  minutes: 19
+  kind: notebooklm
 ---
 
 Our system has one read tool that searches six kinds of data at once: memories, library docs, code, the knowledge graph, plans, and past sessions. For months it returned a single list, sorted by a field called `relevance`.

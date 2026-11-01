@@ -36,7 +36,8 @@ const articles = defineCollection({
     /** A listenable episode for this article. `kind` says what it is, so a generated discussion
      *  is never mistaken for a measurement: notebooklm = AI audio overview of the sources. */
     audio: z.object({
-      src: z.string().url(),
+      /** A URL, or a path under public/ such as media/audio/x.m4a (resolved against the base). */
+      src: z.string(),
       title: z.string(),
       minutes: z.number().int().positive(),
       kind: z.enum(['notebooklm', 'own']).default('notebooklm'),

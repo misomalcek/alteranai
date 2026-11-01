@@ -11,6 +11,11 @@ cites: [sep_emergence]
 sources:
   - { doc_key: "~/content/alteranai-content/alteran-teoria-natural-flow.md", title: "Alteran theory and natural flow, a session dialogue, September 2026" }
   - { doc_key: "~/memory (anchor, decay 0)", title: "the natural-flow anchor, stored the same day" }
+audio:
+  src: media/audio/hallucinations-are-entropy.m4a
+  title: AI hallucinations are entropy, not lies
+  minutes: 22
+  kind: notebooklm
 ---
 
 Fei-Fei Li used to remind her students that AI is *not artificial*. We add the second half: **it is not intelligence either.** That is not a demotion. It is a better description, and it predicts where the mistakes come from.

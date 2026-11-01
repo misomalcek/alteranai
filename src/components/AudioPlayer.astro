@@ -8,7 +8,9 @@
  * sources is never read as a measurement.
  */
 interface Props { src: string; title: string; minutes: number; kind: 'notebooklm' | 'own' }
-const { src, title, minutes, kind } = Astro.props;
+import { url } from '../data/util';
+const { src: raw, title, minutes, kind } = Astro.props;
+const src = /^https?:\/\//.test(raw) ? raw : url(raw);
 const note = kind === 'notebooklm'
   ? 'AI-generated audio overview (NotebookLM) of the sources behind this article. A discussion, not a measurement: the figures in the text are the checked ones.'
   : 'Recorded by us.';

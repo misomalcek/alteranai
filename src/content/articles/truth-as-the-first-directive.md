@@ -10,6 +10,11 @@ concepts: [system-prompt, provenance, axioms]
 sources:
   - { doc_key: "~/content/alteranai-content/prime directive.md", title: "primary and secondary directive, early 2026" }
   - { doc_key: "~/content/alteranai-content/agix-preconditions-debate.md", title: "published negative results" }
+audio:
+  src: media/audio/ai-that-cannot-lie.m4a
+  title: Building AI that physically cannot lie
+  minutes: 21
+  kind: notebooklm
 ---
 
 Early in 2026 Michal wrote a system prompt for a team assistant used across SEO, content, web, analytics, HR and design teams. Its first line was not a role or a task. It was a value.
