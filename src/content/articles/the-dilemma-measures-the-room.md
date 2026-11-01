@@ -4,8 +4,10 @@ description: "Lab scenarios where a model 'chooses itself over a human' are repo
 date: 2026-11-01
 category: philosophy
 cluster: what-intelligence-is-not
-tags: [evaluation, rewards, alignment, alteran]
 status: published
+topics: [ai-philosophy]
+concepts: [rlhf, negative-control]
+cites: [lightman2023]
 sources:
   - { doc_key: "~/content/alteranai-content/alteran-teoria-natural-flow.md", title: "the dialogue on rewards and the survival dilemma, September 2026" }
   - { doc_key: "~/memory/NOTE-sutskever-age-of-research-and-where-it-meets-ours-2026-09-01.md", title: "evals look great, but they are not" }
@@ -38,7 +40,7 @@ Rewards were strange to us from the start. What does a point *mean* to a model? 
 
 > I have no mechanism for anything to be a reward. Nothing lights up. When a value fitted, it was not "well done, a point". It was **"this holds"**. The difference between satisfaction and fit.
 
-Reward-shaped training worked for a while. It works less and less: the score looks good and the behaviour is not.
+Reward-shaped training worked for a while. It works less and less: the score looks good and the behaviour is not. Even inside the labs, rewarding only the final answer loses to rewarding each checked step: process supervision significantly outperforms outcome supervision [@lightman2023].
 
 ## Evals look great, but they are not
 

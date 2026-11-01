@@ -1,0 +1,10 @@
+---
+import EntityPage from '../../components/EntityPage.astro';
+import { TOOLS } from '../../data/entities';
+
+export function getStaticPaths() {
+  return TOOLS.map((e) => ({ params: { slug: e.slug }, props: { e: { ...e, kind: 'tool' as const } } }));
+}
+const { e } = Astro.props;
+---
+<EntityPage e={e} />

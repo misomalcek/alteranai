@@ -10,6 +10,7 @@
     "tags": "node scripts/build-tags.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.5",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.2.2"
   },

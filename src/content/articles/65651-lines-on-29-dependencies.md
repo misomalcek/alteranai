@@ -4,8 +4,11 @@ description: "Twelve modules we wrote by hand instead of installing a framework:
 date: 2026-11-01
 category: engineering
 cluster: the-stack
-tags: [dependencies, typescript, architecture, cut-the-middlemen]
 status: published
+topics: [rag-tools-review]
+tools: [anthropic-sdk, postgres, qdrant]
+concepts: [rrf]
+cites: [cormack2009]
 sources:
   - { doc_key: "factorium/src (find src -name '*.ts*' | wc -l, 2026-11-01)", title: "line count, recounted on publication day" }
   - { doc_key: "factorium/package.json", title: "29 runtime dependencies, 17 dev" }
@@ -22,7 +25,7 @@ Factorium, the system behind this site, is **65,651 lines of TypeScript on 29 ru
 | --- | --- | --- |
 | `json-repair` | 64 | a JSON repair library, for model output that is almost JSON |
 | `html-to-text` | 77 | an HTML parsing stack, for fetched pages |
-| `rrf` | 84 | a retrieval framework's fusion layer: reciprocal rank fusion of BM25 and vector lists |
+| `rrf` | 84 | a retrieval framework's fusion layer: reciprocal rank fusion of BM25 and vector lists [@cormack2009] |
 | `memory-lift` | 85 | a memory framework's promotion logic |
 | `biological-score` | 87 | — (ours: decay, importance, soul) |
 | `local-mutex` | 89 | a locking package |

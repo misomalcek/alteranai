@@ -4,8 +4,11 @@ description: "Our unified search compared three different quantities in one colu
 date: 2026-11-01
 category: engineering
 cluster: retrieval-that-works
-tags: [retrieval, rrf, reranking, hybrid-search, evaluation]
 status: published
+topics: [hybrid-retrieval]
+tools: [bge-m3, qdrant]
+concepts: [rrf, reranker, recall-at-k, hybrid-search, bm25, embeddings]
+cites: [cormack2009, topk2026, laforge2026]
 sources:
   - { doc_key: "factorium/src/server/core/hive/hive-db.ts", title: "rescaling defect, measured 2026-08-31" }
   - { doc_key: "factorium/src/server/core/hive/rrf.ts", title: "score bands after the bge-m3 cutover, 2026-09-29" }
@@ -44,11 +47,11 @@ Inside that one layer, harmless: the order was already decided. In a list shared
 
 After the bge-m3 cutover we measured where each source's scores sit. Memory and knowledge had **swapped ends** compared with the note written under the previous model. Any rule like "memory scores are usually higher" silently inverts the day you change embedders.
 
-Normalising does not rescue it. Min-max scaling is destroyed by one outlier, and z-scores assume a normal distribution that relevance scores do not have.
+Normalising does not rescue it. Score fusion earns its place only once you have labelled data to tune weights against [@topk2026]; until then rank fusion is hard to beat out of the box [@laforge2026]. Min-max scaling is destroyed by one outlier, and z-scores assume a normal distribution that relevance scores do not have.
 
 ## What we do instead
 
-**1. Fuse by position, not by score.** Reciprocal rank fusion scores a document as `Σ 1/(k + rank)` across retrievers, with k = 60, the value from Cormack et al. (2009). Scale never enters, so it cannot leak.
+**1. Fuse by position, not by score.** Reciprocal rank fusion scores a document as `Σ 1/(k + rank)` across retrievers, with k = 60, the value from Cormack et al. (2009) [@cormack2009]. Scale never enters, so it cannot leak.
 
 **2. Rerank inside one kind of data only.** A cross-encoder reads the query and each candidate together and is far more precise than a vector distance. We run it per source, never across a mixed list.
 

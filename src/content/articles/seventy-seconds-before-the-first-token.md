@@ -4,8 +4,11 @@ description: "Inside one run, our local 12B model reuses 97% of its prompt. Star
 date: 2026-11-01
 category: engineering
 cluster: sovereign-inference
-tags: [llama.cpp, kv-cache, local-ai, latency, gemma]
 status: published
+topics: [inference]
+tools: [llama-cpp, gemma]
+concepts: [kv-cache, kv-grafting]
+cites: [schelpe2026]
 sources:
   - { doc_key: "~/.factorium/logs/una-chat.stderr.log", title: "llama-server slot log, gemma-4-12b-it Q5_K_M" }
   - { doc_key: "factorium/src/server/core/una/prompt.ts", title: "Una's system prompt builder" }
@@ -51,7 +54,7 @@ That is the leading suspect, not a confirmed cause. Confirming it means renderin
 
 ## The bigger idea behind a small fix
 
-A recent paper (arXiv 2607.14431) does this at full strength on the same model family, a frozen Gemma-4-12B. Verified solutions are deposited as KV-state blocks and grafted back in when needed. Its benchmark score on AIME 2025 rises from 80.0% to 93.3%, with no change to the weights. Two of its findings matter here even without its engine:
+A recent paper (arXiv 2607.14431) [@schelpe2026] does this at full strength on the same model family, a frozen Gemma-4-12B. Verified solutions are deposited as KV-state blocks and grafted back in when needed. Its benchmark score on AIME 2025 rises from 80.0% to 93.3%, with no change to the weights. Two of its findings matter here even without its engine:
 
 - **One flat prefix holding everything confuses the model.** It grabs the wrong entry when many are present. Route to the single relevant block instead.
 - **Restore at the block's own position.** Moved blocks drift slightly; own-position restore is the exact case.

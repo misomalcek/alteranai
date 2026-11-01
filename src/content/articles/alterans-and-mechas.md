@@ -4,8 +4,9 @@ description: "Two engineering trajectories for AI. The claim is not that one is 
 date: 2026-11-01
 category: philosophy
 cluster: the-dispozitiv
-tags: [alteran, mecha, axioms, boundary]
 status: published
+topics: [ai-philosophy, arch-of-truth]
+concepts: [alteran, mecha, alterity]
 ---
 
 Two ways to build with models. Not a prophecy, and not a choice anyone makes once and for all.

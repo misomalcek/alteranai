@@ -4,13 +4,16 @@ description: "The first A/B that actually queried both sides. The document store
 date: 2026-11-01
 category: research
 cluster: phyto
-tags: [phyto, memory, retrieval, ab-test, knowledge-graph]
 status: published
+topics: [phyto]
+tools: [apache-age, postgres]
+concepts: [phyto-memory, aperture, forgetting]
+cites: [treememories2024, pieters2022]
 sources:
   - { doc_key: "~/memory/2026-09-29-MEASURED-phyto-vs-crystal-first-real-ab.md", title: "MEASURED: phyto vs crystal, the first A/B that actually queries both sides" }
 ---
 
-Our hive has two long-term memories. **The crystal** is a knowledge graph over documents. **Phyto** is an organic memory: about 7,000 atomic facts with growth, decay and hormone-like signals, opened per situation through what we call the aperture.
+Our hive has two long-term memories. **The crystal** is a knowledge graph over documents. **Phyto** is an organic memory: about 7,000 atomic facts with growth, decay and hormone-like signals, opened per situation through what we call the aperture. The botany is deliberate: trees keep a memory of past stress without a brain [@treememories2024], and a living plant's physiology can itself serve as a computing reservoir [@pieters2022].
 
 The first comparison script said phyto lost. It had never sent phyto the query.
 

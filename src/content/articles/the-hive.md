@@ -4,11 +4,14 @@ description: "Five AI seats and one human. Not an agent swarm: each seat has its
 date: 2026-11-01
 category: engineering
 cluster: multi-agent-not-a-swarm
-tags: [multi-agent, permissions, autonomy, una]
 status: published
+topics: [hive-ideas]
+tools: [claude, gemma]
+concepts: [alteran, silent-failure]
+cites: [anthropic2025research]
 ---
 
-Five seats and one human. Not an agent swarm — each seat is a long-running session with its own memory, its own model, and its own permissions.
+Five seats and one human. Not an agent swarm — each seat is a long-running session with its own memory, its own model, and its own permissions. Anthropic measured the price of the other design, many parallel agents: about 15× the tokens of a chat, and their own conclusion that human evaluation catches what automation misses [@anthropic2025research].
 
 ## The seats
 

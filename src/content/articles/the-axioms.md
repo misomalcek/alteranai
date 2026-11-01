@@ -4,8 +4,9 @@ description: "Fifteen guards the system checks before it derives a conclusion, n
 date: 2026-11-01
 category: philosophy
 cluster: the-dispozitiv
-tags: [axioms, epistemics, alteran]
 status: published
+topics: [ai-philosophy]
+concepts: [axioms, alterity, dispozitiv]
 ---
 
 Fifteen, one set. They are not a values page — they are guards the system checks **before** deriving a conclusion, not after.

@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { url, articles, topicsOf, topicName, CORPUS, TIER_LABEL } from '../../data/util';
+import { SOURCES } from '../../data/sources';
+import { TOPIC_LINES } from '../../data/topics';
+
+export async function getStaticPaths() {
+  return CORPUS.topics.map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+const { t } = Astro.props;
+const list = (await articles()).filter((a) => topicsOf(a).includes(t.slug));
+const refs = Object.entries(SOURCES).filter(([, s]) => s.topic === t.slug);
+const line = TOPIC_LINES[t.slug] ?? '';
+---
+<Base title={`Topic: ${topicName(t.slug)}`} description={line || `Articles and sources on ${topicName(t.slug)}.`} node="topics">
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label cyan">Topic · from the research corpus</span>
+      <h1 style="text-transform:capitalize">{topicName(t.slug)}</h1>
+      {line && <p class="lede">{line}</p>}
+      <div class="chips">
+        {t.sources > 0 && <span class="chip">{t.sources} documents in sources</span>}
+        {t.content > 0 && <span class="chip purple">{t.content} blueprints and notes</span>}
+        <span class:list={['chip', { live: list.length > 0 }]}>{list.length} {list.length === 1 ? 'article' : 'articles'}</span>
+      </div>
+    </header>
+    {list.length > 0 && (
+      <section class="section">
+        <div class="grid g3">{list.map((a) => <ArticleCard a={a} />)}</div>
+      </section>
+    )}
+    {refs.length > 0 && (
+      <section class="section">
+        <div class="section-head"><span class="label">Cited from this folder</span></div>
+        <ol class="reflist">
+          {refs.map(([id, s]) => (
+            <li id={id}>
+              {s.authors && <span>{s.authors}. </span>}
+              {s.url ? <a href={s.url}>{s.title}</a> : <span>{s.title}</span>}
+              {s.venue && <span class="dim">. {s.venue}</span>}{s.year && !(s.venue ?? "").includes(String(s.year)) && <span class="dim"> ({s.year})</span>}
+              <span class="tier">{TIER_LABEL[s.tier]}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+    <p class="ghost" style="font-size:13px;margin-top:32px">Topics are the folder names of our research corpus, snapshot {CORPUS.taken}. A topic exists because the folder does; nothing here is a hand-kept tag list. <a href={url('tags/')}>All tags →</a></p>
+  </div>
+</Base>

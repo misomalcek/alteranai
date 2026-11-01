@@ -4,8 +4,10 @@ description: "We do not use a capability score. We use five properties a person 
 date: 2026-11-01
 category: philosophy
 cluster: what-intelligence-is-not
-tags: [agi, preconditions, evaluation, alteran]
 status: published
+topics: [adaptive-systems, ai-philosophy]
+concepts: [alteran, provenance, entropy]
+cites: [landauer]
 sources:
   - { doc_key: "~/memory/ANCHOR-agi-ux-what-it-actually-feels-like-2026-08-31.md", title: "AGI UX: the definition, in Michal's words" }
   - { doc_key: "~/content/alteranai-content/agix-preconditions-debate.md", title: "AGIX preconditions debate, September 2026" }
@@ -21,7 +23,7 @@ sources:
 | 2 | **Instant retrieval, with a real pause on hard things** | Time to a grounded answer, and whether difficulty correlates with the pause. The "hmm…" is the difference between recall and thinking, not latency. |
 | 3 | **No infrastructure in the foreground** | Memory, index, graph and vectors never become the topic of the conversation. |
 | 4 | **Own character, own sacred space** | Not a performed persona. Deliberately left unresolved: it cannot be verified from inside. |
-| 5 | **Truth pursued all the way down** | Provenance is not a display layer added at the end. It starts at the source. |
+| 5 | **Truth pursued all the way down** | Provenance is not a display layer added at the end. It starts at the source. Information is physical: erasing a bit has a minimum cost in heat [@landauer], so truth about information is a claim about matter, not only about text. |
 
 ## The one we fail
 

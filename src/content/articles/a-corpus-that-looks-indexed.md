@@ -4,8 +4,10 @@ description: "Every counter said 1,047 memories were indexed. 653 of them were t
 date: 2026-11-01
 category: engineering
 cluster: memory-architecture
-tags: [memory, qdrant, chunking, indexing, silent-failure]
 status: published
+topics: [hybrid-retrieval]
+tools: [qdrant, bge-m3]
+concepts: [chunking, embeddings, silent-failure]
 sources:
   - { doc_key: "~/memory/2026-10-03-MEASURED-72-percent-of-indexed-memory-never-reached-qdrant.md", title: "MEASURED: 72% of indexed hive memory never reached Qdrant" }
   - { doc_key: "~/memory/2026-10-03-ANCHOR-the-prime-recovery-run-what-was-wrong-and-what-is-now-true.md", title: "the recovery run, gates G1–G6" }

@@ -1,0 +1,130 @@
+{
+  "taken": "2026-11-01",
+  "topics": [
+    {
+      "slug": "adaptive-symbiosis",
+      "sources": 0,
+      "content": 9
+    },
+    {
+      "slug": "adaptive-systems",
+      "sources": 42,
+      "content": 0
+    },
+    {
+      "slug": "ai-philosophy",
+      "sources": 28,
+      "content": 0
+    },
+    {
+      "slug": "ai-semantics",
+      "sources": 8,
+      "content": 0
+    },
+    {
+      "slug": "arch-of-truth",
+      "sources": 63,
+      "content": 38
+    },
+    {
+      "slug": "biosynthesis",
+      "sources": 27,
+      "content": 0
+    },
+    {
+      "slug": "continuous-thought-machines",
+      "sources": 14,
+      "content": 0
+    },
+    {
+      "slug": "dark-systems",
+      "sources": 2,
+      "content": 0
+    },
+    {
+      "slug": "deterministic-python",
+      "sources": 16,
+      "content": 0
+    },
+    {
+      "slug": "fol-reasoning",
+      "sources": 15,
+      "content": 9
+    },
+    {
+      "slug": "fractal-optimizer",
+      "sources": 13,
+      "content": 23
+    },
+    {
+      "slug": "habits-rules",
+      "sources": 7,
+      "content": 0
+    },
+    {
+      "slug": "hive-ideas",
+      "sources": 0,
+      "content": 10
+    },
+    {
+      "slug": "hybrid-retrieval",
+      "sources": 82,
+      "content": 3
+    },
+    {
+      "slug": "inference",
+      "sources": 19,
+      "content": 14
+    },
+    {
+      "slug": "infinite-worlds",
+      "sources": 46,
+      "content": 0
+    },
+    {
+      "slug": "meaning-and-language",
+      "sources": 6,
+      "content": 0
+    },
+    {
+      "slug": "neuro-symbolic",
+      "sources": 8,
+      "content": 0
+    },
+    {
+      "slug": "palantir-study",
+      "sources": 2,
+      "content": 0
+    },
+    {
+      "slug": "phyto",
+      "sources": 89,
+      "content": 52
+    },
+    {
+      "slug": "rag-tools-review",
+      "sources": 13,
+      "content": 0
+    },
+    {
+      "slug": "research-standards",
+      "sources": 14,
+      "content": 0
+    },
+    {
+      "slug": "roots-of-ai",
+      "sources": 12,
+      "content": 0
+    },
+    {
+      "slug": "rust-patterns",
+      "sources": 53,
+      "content": 0
+    },
+    {
+      "slug": "systems-design",
+      "sources": 43,
+      "content": 0
+    }
+  ]
+}

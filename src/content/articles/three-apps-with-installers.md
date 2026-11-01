@@ -4,8 +4,10 @@ description: "Crystal RAG, The Wisdomkeeper and SEO Brain: what each does, what 
 date: 2026-11-01
 category: engineering
 cluster: products
-tags: [products, tauri, rust, local-ai, rag]
 status: published
+topics: [infinite-worlds, hybrid-retrieval]
+tools: [tauri, rust, threejs, qdrant, llama-cpp, claude, anthropic-sdk]
+concepts: [rrf, sovereign-inference]
 sources:
   - { doc_key: "github.com/misomalcek/crystal-rag/releases/tag/v0.4.10", title: "Crystal RAG v0.4.10" }
   - { doc_key: "github.com/misomalcek/the-wisdomkeeper/releases/tag/desktop-0.1.2", title: "The Wisdomkeeper desktop 0.1.2" }

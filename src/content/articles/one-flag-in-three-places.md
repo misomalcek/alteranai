@@ -4,8 +4,10 @@ description: "Our local agent took 24 seconds to say 'OK'. The loop was fine. A 
 date: 2026-11-01
 category: engineering
 cluster: sovereign-inference
-tags: [llama.cpp, kv-cache, latency, launchd, local-ai]
 status: published
+topics: [inference]
+tools: [llama-cpp, gemma, launchd, rust]
+concepts: [kv-cache, sovereign-inference]
 sources:
   - { doc_key: "~/memory/2026-10-19-MEASURED-una-loop-latency-root-cause.md", title: "MEASURED: Una is 34x slower than her own model, and --cache-ram 0 is why" }
 ---

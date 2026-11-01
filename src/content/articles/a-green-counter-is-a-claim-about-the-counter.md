@@ -4,8 +4,9 @@ description: "One recurring bug shape, found at six sites in one recovery run: a
 date: 2026-11-01
 category: engineering
 cluster: failure-modes
-tags: [failure-modes, testing, observability, silent-failure]
 status: published
+topics: [research-standards]
+concepts: [silent-failure, negative-control]
 sources:
   - { doc_key: "~/memory/2026-10-03-ANCHOR-the-prime-recovery-run-what-was-wrong-and-what-is-now-true.md", title: "the recovery run: one disease at four sites" }
   - { doc_key: "~/memory/2026-09-29-MEASURED-phyto-vs-crystal-first-real-ab.md", title: "the A/B script that never sent the query" }

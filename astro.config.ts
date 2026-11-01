@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { remarkAlteran } from './src/lib/remark-alteran';
 
 // GitHub Pages serves the project from /alteranai/ until the domain points here.
 // When alteranai.com is switched to this build: SITE_URL=https://www.alteranai.com SITE_BASE=/
@@ -11,5 +12,8 @@ export default defineConfig({
   base,
   trailingSlash: 'always',
   integrations: [sitemap()],
-  markdown: { shikiConfig: { theme: 'github-dark-dimmed' } },
+  markdown: {
+    shikiConfig: { theme: 'github-dark-dimmed' },
+    remarkPlugins: [[remarkAlteran, { base }]],
+  },
 });

@@ -4,8 +4,9 @@ description: "Two passing evaluations in one day, both blind to the change they 
 date: 2026-11-01
 category: research
 cluster: measuring-your-own-system
-tags: [evaluation, testing, retrieval, failure-modes]
 status: published
+topics: [hybrid-retrieval, research-standards]
+concepts: [recall-at-k, negative-control, reranker]
 sources:
   - { doc_key: "~/.factorium/logs/retrieval-eval.jsonl", title: "phase lines before, phase1, phase2; prime limit-5 run" }
   - { doc_key: "qa/fixtures/hive-lookup-probes-v2.json", title: "52 probes: code 24, memory 24, docs 4" }

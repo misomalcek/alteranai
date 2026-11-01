@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/util';
+import { ALL, entityPath } from '../data/entities';
+
+const sorted = [...ALL].sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+const groups = new Map<string, typeof sorted>();
+for (const e of sorted) {
+  const k = /[a-z]/i.test(e.name[0]) ? e.name[0].toUpperCase() : '#';
+  if (!groups.has(k)) groups.set(k, []);
+  groups.get(k)!.push(e);
+}
+const schema = {
+  '@context': 'https://schema.org', '@type': 'DefinedTermSet', name: 'AlteranAI glossary',
+  hasDefinedTerm: sorted.filter((e) => e.kind === 'concept').map((e) => ({ '@type': 'DefinedTerm', name: e.name, description: e.line })),
+};
+---
+<Base title="Glossary" description="The tools and concepts this magazine uses, in one line each, with the Alteran vocabulary marked.">
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label cyan">Glossary</span>
+      <h1>{sorted.length} terms, one line each.</h1>
+      <p class="lede">The first time an article mentions one of these, it links here. <span style="color:var(--green)">Green</span> marks our own vocabulary, <span style="color:var(--purple)">purple</span> the tools.</p>
+      <input id="gq" type="search" placeholder="Filter terms…" class="gq" aria-label="Filter terms" />
+    </header>
+    <nav class="chips" style="margin:18px 0 8px">{[...groups.keys()].map((k) => <a class="chip" href={`#g-${k}`}>{k}</a>)}</nav>
+    {[...groups].map(([k, list]) => (
+      <section class="section gsec" id={`g-${k}`} style="padding-top:20px">
+        <h2 style="font-size:28px;color:var(--cyan)">{k}</h2>
+        <dl class="gl">
+          {list.map((e) => (
+            <div class="gi" data-q={`${e.name} ${(e.aka ?? []).join(' ')} ${e.line}`.toLowerCase()}>
+              <dt><a href={url(entityPath(e))} style={`color:${e.kind === 'tool' ? 'var(--purple)' : e.own ? 'var(--green)' : 'var(--fg)'}`}>{e.name}</a></dt>
+              <dd class="dim">{e.line}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </div>
+  <style>
+    .gq { max-width: 420px; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--edge); background: var(--glass); color: var(--fg); font: inherit; }
+    .gl { display: grid; gap: 4px 28px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); margin: 10px 0 0; }
+    .gi { padding: 12px 0; border-top: 1px solid var(--edge); }
+    .gi dt a { text-decoration: none; font-size: 17px; }
+    .gi dd { margin: 4px 0 0; font-size: 14px; line-height: 1.5; }
+  </style>
+  <script>
+    const q = document.getElementById('gq') as HTMLInputElement | null;
+    q?.addEventListener('input', () => {
+      const v = q.value.trim().toLowerCase();
+      document.querySelectorAll<HTMLElement>('.gi').forEach((el) => { el.hidden = !!v && !(el.dataset.q ?? '').includes(v); });
+      document.querySelectorAll<HTMLElement>('.gsec').forEach((s) => { s.hidden = !s.querySelector('.gi:not([hidden])'); });
+    });
+  </script>
+</Base>

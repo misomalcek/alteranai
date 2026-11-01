@@ -189,3 +189,29 @@ a.card:hover, .card.hover:hover { border-color: var(--edge-hover); box-shadow: 0
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* references, citations, tags block */
+.reflist { margin: 0; padding-left: 1.6em; display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.55; }
+.reflist a { color: var(--cyan); }
+.reflist .tier { margin-left: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-ghost); border: 1px solid var(--edge); border-radius: 999px; padding: 1px 7px; white-space: nowrap; }
+.reflist .file { display: block; font-family: var(--mono); font-size: 11px; color: var(--fg-ghost); margin-top: 2px; word-break: break-all; }
+.reflist .citedby { font-size: 13px; color: var(--fg-dim); margin-top: 3px; }
+.reflist .citedby a { color: var(--fg-dim); }
+sup.cite { font-size: .68em; line-height: 0; margin-left: 1px; }
+sup.cite a { font-family: var(--mono); color: var(--cyan); text-decoration: none; padding: 0 2px; }
+sup.cite a::before { content: '['; } sup.cite a::after { content: ']'; }
+.prose a.auto-link { color: inherit; text-decoration: underline; text-decoration-color: rgba(0,239,252,.45); text-underline-offset: 3px; }
+.prose a.auto-link:hover { color: var(--cyan); }
+.tagblock { display: grid; gap: 10px; }
+.tagblock .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.tagblock .k { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-ghost); min-width: 80px; }
+.toc { position: sticky; top: 96px; font-size: 13px; }
+.toc ol { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.toc a { color: var(--fg-dim); text-decoration: none; }
+.toc a:hover { color: var(--cyan); }
+.article-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+@media (min-width: 1100px) { .article-grid { grid-template-columns: minmax(0, 68ch) 240px; justify-content: start; } }
+@media (max-width: 1099px) { .toc { display: none; } }
+.foot-index { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.foot-index a { color: var(--fg-dim); text-decoration: none; }
+.foot-index a:hover { color: var(--cyan); }

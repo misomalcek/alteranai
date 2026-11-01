@@ -4,8 +4,10 @@ description: "Sovereign AI systems: they run on hardware you own, and the data n
 date: 2026-11-01
 category: engineering
 cluster: sovereign-inference
-tags: [sovereign, local-ai, dependencies, offer]
 status: published
+topics: [inference]
+tools: [llama-cpp, gemma, rust]
+concepts: [sovereign-inference, situational-triggers]
 ---
 
 Sovereign AI systems — they run on hardware you own, and the data never leaves it.

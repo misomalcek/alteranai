@@ -4,8 +4,9 @@ description: "Put the naked truth first in a model's instructions and it gets fa
 date: 2026-11-01
 category: philosophy
 cluster: the-dispozitiv
-tags: [system-prompt, truth, directives, alteran]
 status: published
+topics: [ai-philosophy]
+concepts: [system-prompt, provenance, axioms]
 sources:
   - { doc_key: "~/content/alteranai-content/prime directive.md", title: "primary and secondary directive, early 2026" }
   - { doc_key: "~/content/alteranai-content/agix-preconditions-debate.md", title: "published negative results" }

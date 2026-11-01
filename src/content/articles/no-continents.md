@@ -4,8 +4,10 @@ description: "We clustered our own knowledge graph and got one blob holding 995 
 date: 2026-11-01
 category: nature
 cluster: natural-flow
-tags: [embeddings, geometry, spectral-graph, clustering, natural-flow]
 status: published
+topics: [phyto]
+concepts: [k-means, spectral-graph, nearest-neighbour, forgetting, graph-memory-learning, multiscale-tree-graph, persona-vectors]
+cites: [miao2024, mtgjl, moskvoretskii2026]
 sources:
   - { doc_key: "~/content/alteranai-content/Natural Order_ The Thermodynamic Manifest of AI Flow.md", title: "Natural Order: the thermodynamic manifest, September 2026" }
   - { doc_key: "~/content/alteranai-content/alteran-teoria-natural-flow.md", title: "the same session: PC1 5.7%, no thematic continents" }
@@ -49,9 +51,9 @@ What we took from it, as working rules:
 
 - **Grow structure, do not impose it.** New items join the nearest credible local structure, by distance to existing groups, rather than by a category assigned in advance.
 - **Shortcuts like hyphae.** Cross-links chosen as the top few nearest neighbours, not as fixed edges, so useful paths can emerge between distant regions.
-- **Forgetting is the price of usability.** A memory that keeps everything at equal weight becomes the blob above. Pruning is part of the metabolism, not a failure of it.
+- **Forgetting is the price of usability.** A memory that keeps everything at equal weight becomes the blob above. Pruning is part of the metabolism, not a failure of it. The same holds in model training: persona vectors form within 0.22% of pretraining and stay usable in the finished model [@moskvoretskii2026], so later training regulates what is there rather than installing it.
 
-The architecture this points at, a multi-scale tree of coarse shards, progress-aware modules and fine grains, comes from the graph-memory literature (MTG, MGP, FGGL, ISAO). We cite it as direction. **We have not built it**, and nothing here should be read as a result from it.
+The architecture this points at, a multi-scale tree of coarse shards, progress-aware modules and fine grains, comes from the graph-memory literature (MTG, MGP, FGGL, ISAO) [@miao2024], with the multi-scale tree graph itself borrowed from plant-architecture modelling [@mtgjl]. We cite it as direction. **We have not built it**, and nothing here should be read as a result from it.
 
 ## The limit
 

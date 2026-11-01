@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from './ArticleCard.astro';
+import { url, articles } from '../data/util';
+import { entity, entityPath, type Entity } from '../data/entities';
+
+interface Props { e: Entity & { kind: 'tool' | 'concept' } }
+const { e } = Astro.props;
+const field = e.kind === 'tool' ? 'tools' : 'concepts';
+const list = (await articles()).filter((a) => (a.data[field] as string[]).includes(e.slug) || (a.body ?? '').toLowerCase().includes(e.name.toLowerCase()));
+const related = (e.related ?? []).map((s) => entity(s)).filter((x) => !!x);
+const label = e.kind === 'tool' ? 'Tool' : e.own ? 'Alteran term' : 'Concept';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': e.kind === 'tool' ? 'SoftwareApplication' : 'DefinedTerm',
+  name: e.name, description: e.line, ...(e.sameAs ? { sameAs: e.sameAs } : {}),
+  ...(e.kind === 'concept' ? { inDefinedTermSet: new URL(url('glossary/'), Astro.site).href } : {}),
+};
+---
+<Base title={e.name} description={e.line} node={e.kind === 'tool' ? 'engineering' : 'topics'}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px;max-width:820px" data-reveal>
+      <span class="label" style={`color:${e.kind === 'tool' ? 'var(--purple)' : e.own ? 'var(--green)' : 'var(--cyan)'}`}>{label}</span>
+      <h1>{e.name}</h1>
+      {e.aka && e.aka.length > 0 && <span class="ghost" style="font-family:var(--mono);font-size:13px">also: {e.aka.join(' · ')}</span>}
+      <p class="lede">{e.line}</p>
+      {e.sameAs && <a class="btn second" style="align-self:flex-start;padding:9px 16px;font-size:12px" href={e.sameAs}>Reference ↗</a>}
+    </header>
+    {related.length > 0 && (
+      <section class="section">
+        <div class="section-head"><span class="label">Related</span></div>
+        <div class="chips">{related.map((r) => <a class="chip" href={url(entityPath(r!))}>{r!.name}</a>)}</div>
+      </section>
+    )}
+    <section class="section">
+      <div class="section-head"><span class="label">{list.length} {list.length === 1 ? 'article' : 'articles'}</span></div>
+      {list.length > 0 ? <div class="grid g3">{list.map((a) => <ArticleCard a={a} />)}</div> : <p class="dim">No article yet.</p>}
+    </section>
+    <p class="ghost" style="font-size:13px"><a href={url('glossary/')}>Glossary →</a></p>
+  </div>
+</Base>

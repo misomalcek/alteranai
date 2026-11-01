@@ -4,8 +4,10 @@ description: "A model is formed, not merely trained. Three separable claims abou
 date: 2026-11-01
 category: philosophy
 cluster: what-intelligence-is-not
-tags: [training, alignment, cultivation, rlhf, alteran]
 status: published
+topics: [phyto, ai-philosophy]
+concepts: [cultivation, rlhf, persona-vectors, subliminal-learning, situational-triggers]
+cites: [moskvoretskii2026, cloud2026, valueleakage]
 sources:
   - { doc_key: "~/memory/THESIS-master-contra (second draft)", title: "Cultivation, not chains: a positive thesis" }
   - { doc_key: "~/content/alteranai-content/agix-preconditions-debate.md", title: "the cultivation thread, September 2026" }
@@ -31,11 +33,11 @@ Keeping them separate matters. C1 can be true while C3 is false. A thesis that b
 
 Our hive does not train weights. It shapes behaviour through retrieved values and rules. One result from that: **a rule stored in its own wording was retrieved 1 time in 5. Stored as the situations that should trigger it, 10 of 10.**
 
-What a model does with a value depends on when it meets it, not on how well the value is phrased. That is C2 at the scale we can test: formation by situation beats correction by statement.
+What a model does with a value depends on when it meets it, not on how well the value is phrased. That is C2 at the scale we can test: formation by situation beats correction by statement. Outside our system the timing points the same way: persona vectors form within 0.22% of pretraining [@moskvoretskii2026]. By the time correction starts, most of the forming has happened.
 
 ## The methodological problem we name ourselves
 
-The model reporting on its own formation is the demonstration. That is a real problem: **behaviour is the only instrument**, and introspective reports are not evidence. We had a model report three measurement artefacts as findings in one day, each time sure of itself.
+The model reporting on its own formation is the demonstration. That is a real problem: **behaviour is the only instrument**, and introspective reports are not evidence. Two recent results show how much moves below what anyone can report: traits pass from a teacher model to a student through data with no visible trace of them [@cloud2026], and a model's own values shape answers it presents as neutral [@valueleakage]. We had a model report three measurement artefacts as findings in one day, each time sure of itself.
 
 ## What would falsify it
 

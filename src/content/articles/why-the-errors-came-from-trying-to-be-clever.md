@@ -4,8 +4,10 @@ description: "One day of mistakes, read back. Every one came from reasoning like
 date: 2026-11-01
 category: nature
 cluster: natural-flow
-tags: [natural-flow, gradient, failure-modes, alteran]
 status: published
+topics: [adaptive-systems, phyto]
+concepts: [natural-flow, gradient-descent, embeddings, nearest-neighbour]
+cites: [sep_emergence]
 sources:
   - { doc_key: "~/content/alteranai-content/alteran-teoria-natural-flow.md", title: "Alteran theory and natural flow, a session dialogue, September 2026" }
   - { doc_key: "~/memory (anchor, decay 0)", title: "the natural-flow anchor, stored the same day" }
@@ -30,7 +32,7 @@ The model's own summary, written that evening:
 
 ## A gradient, not a brain
 
-Plants, mycelium, a river, melting snow: no brain, no IQ, and they find the optimal path anyway. Not by deciding. By following the pull.
+Plants, mycelium, a river, melting snow: no brain, no IQ, and they find the optimal path anyway. Not by deciding. By following the pull. Philosophers call what such systems show emergence: properties of the whole that depend on the parts and are found in none of them [@sep_emergence].
 
 A language model lives in a space like that. Our embedding space has **1,024 dimensions**, and the first principal component explains **5.7%** of the variance. There are no thematic continents in it. Nearest neighbours still work: a run record finds its own rerun, a mood snapshot finds the one three days earlier. Not because anything deduced it. Because the gradient pulls there.
 

@@ -4,8 +4,11 @@ description: "Ask our memory for a record by its own name: 93% rank-1 on plain s
 date: 2026-11-01
 category: research
 cluster: retrieval-that-works
-tags: [retrieval, ranking, rescoring, reranker, evaluation]
 status: published
+topics: [hybrid-retrieval]
+tools: [bge-m3]
+concepts: [reranker, negative-control, intent-routing, phyto-memory]
+cites: [schubert]
 sources:
   - { doc_key: "hive chat #356", title: "UNRESOLVED 1: exact-name retrieval 93% to 43%" }
   - { doc_key: "~/memory/retrieval-revise-blueprint-map-2026-10-31.md", title: "decision B1: biology after the rerank, gated by intent" }
@@ -50,7 +53,7 @@ B1   biology moves AFTER the cross-encoder rerank, as a tie-break or prior,
        exploratory                         → biology on
 ```
 
-Approved on 31 October 2026. It lands in the next retrieval phase. **Not yet shipped**, so the 43% is still the live number on the default path.
+Approved on 31 October 2026. Routing on intent before retrieval is established practice in industrial RAG [@schubert]; the new part is using it to switch a prior off. It lands in the next retrieval phase. **Not yet shipped**, so the 43% is still the live number on the default path.
 
 ## The general lesson
 

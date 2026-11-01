@@ -4,8 +4,11 @@ description: "Retrieved by its own wording, a behavioural rule came back 1 time 
 date: 2026-11-01
 category: practice
 cluster: working-with-claude
-tags: [rules, prompts, retrieval, agents, claude]
 status: published
+topics: [habits-rules, hybrid-retrieval]
+tools: [claude]
+concepts: [situational-triggers, system-prompt, embeddings, intent-routing]
+cites: [schubert, cohen2025]
 sources:
   - { doc_key: "~/memory/PAPER-measuring-whether-behavioural-rules-change-model-decisions-2026-08", title: "measuring whether behavioural rules change model decisions" }
   - { doc_key: "~/memory/2026-10-22-PLAN-the-two-research-papers-and-what-they-need.md", title: "paper 1: result, limits, bilingual finding" }
@@ -21,7 +24,7 @@ Our agents work under 41 behavioural rules: things like *audit before proposing*
 | by its own wording | **1 in 5** |
 | as the situations that should trigger it | **10 of 10** |
 
-A rule reads like a principle: *"Audit, then propose."* The moment it applies reads nothing like that: *"I am about to suggest a fix for code I have not opened."* Embeddings match the moment to other moments, not to principles.
+A rule reads like a principle: *"Audit, then propose."* The moment it applies reads nothing like that: *"I am about to suggest a fix for code I have not opened."* Embeddings match the moment to other moments, not to principles. Intent-based retrieval reaches the same place from the other side: classify what the situation wants first, then retrieve [@schubert]. Small models handle that step well when it is decomposed [@cohen2025].
 
 **The fix: store each rule with the situations it fires in.** 41 rules, 226 triggers. The agent's current situation is the query.
 

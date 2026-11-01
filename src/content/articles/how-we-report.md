@@ -4,8 +4,9 @@ description: "Every figure on this site comes from a running system. The standar
 date: 2026-11-01
 category: research
 cluster: measuring-your-own-system
-tags: [provenance, measurement, failure-modes]
 status: published
+topics: [research-standards]
+concepts: [provenance, silent-failure]
 ---
 
 Every figure on this site comes from a running system. Not from a memory, not from a model.

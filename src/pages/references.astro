@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, articles, topicName, TIER_LABEL } from '../data/util';
+import { SOURCES } from '../data/sources';
+
+const all = await articles();
+const citedBy = (id: string) => all.filter((a) => a.data.cites.includes(id));
+const byTopic = new Map<string, Array<[string, (typeof SOURCES)[string]]>>();
+for (const [id, s] of Object.entries(SOURCES)) {
+  if (!byTopic.has(s.topic)) byTopic.set(s.topic, []);
+  byTopic.get(s.topic)!.push([id, s]);
+}
+const order = [...byTopic.keys()].sort((a, b) => (a === 'external' ? 1 : b === 'external' ? -1 : a.localeCompare(b)));
+---
+<Base title="References" description="Every source the magazine cites, grouped by the corpus folder it lives in, with its provenance tier.">
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px;max-width:860px" data-reveal>
+      <span class="label cyan">References</span>
+      <h1>{Object.keys(SOURCES).length} sources, and where we keep them.</h1>
+      <p class="lede">Each one is held in our research corpus, under the folder named here, with a provenance tier: <b>original</b> is the paper itself, <b>saved page</b> a web page we archived, <b>synthesis</b> a generated summary we keep as a reading aid and never cite for a number. <b>Not in corpus</b> marks a reference we cite without holding a copy.</p>
+    </header>
+    {order.map((t) => (
+      <section class="section" style="padding-top:24px">
+        <div class="section-head">
+          {t === 'external' ? <span class="label">Outside the corpus</span> : <a class="label" href={url(`topic/${t}/`)} style="text-transform:none">~/{t} · {topicName(t)} →</a>}
+        </div>
+        <ol class="reflist">
+          {byTopic.get(t)!.map(([id, s]) => (
+            <li id={id}>
+              {s.authors && <span>{s.authors}. </span>}
+              {s.url ? <a href={s.url}>{s.title}</a> : <span>{s.title}</span>}
+              {s.venue && <span class="dim">. {s.venue}</span>}{s.year && !(s.venue ?? "").includes(String(s.year)) && <span class="dim"> ({s.year})</span>}
+              <span class="tier">{TIER_LABEL[s.tier]}</span>
+              {citedBy(id).length > 0 && (
+                <div class="citedby">cited in {citedBy(id).map((a, i) => <>{i > 0 && ' · '}<a href={url(`articles/${a.id}/`)}>{a.data.title}</a></>)}</div>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+</Base>

@@ -31,6 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta name="theme-color" content="#080C10" />
   <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
   <link rel="sitemap" href={url('sitemap-index.xml')} />
+  <link rel="alternate" type="application/rss+xml" title="AlteranAI" href={url('rss.xml')} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -52,6 +53,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 
   <footer class="foot">
     <div class="wrap stack" style="gap:22px">
+      <nav class="foot-index" aria-label="Index">
+        <a href={url('topics/')}>AI Topics</a><a href={url('engineering/')}>AI Engineering</a><a href={url('tags/')}>Tags</a><a href={url('glossary/')}>Glossary</a><a href={url('references/')}>References</a><a href={url('portfolio/')}>Portfolio</a><a href={url('rss.xml')}>RSS</a>
+      </nav>
       <div style="display:flex;flex-wrap:wrap;gap:10px">
         {profiles.map((p) => <a class="tether" href={p.href} rel="me"><i></i>{p.name}</a>)}
       </div>

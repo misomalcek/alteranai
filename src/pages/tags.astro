@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, articles, topicsOf, topicName, CORPUS } from '../data/util';
+import { TOOLS, CONCEPTS } from '../data/entities';
+
+const all = await articles();
+const nTopic = (s: string) => all.filter((a) => topicsOf(a).includes(s)).length;
+const nEnt = (field: 'tools' | 'concepts', s: string, name: string) =>
+  all.filter((a) => (a.data[field] as string[]).includes(s) || (a.body ?? '').toLowerCase().includes(name.toLowerCase())).length;
+const topics = CORPUS.topics.map((t) => ({ ...t, n: nTopic(t.slug) })).sort((a, b) => b.n - a.n || a.slug.localeCompare(b.slug));
+const tools = TOOLS.map((e) => ({ e, n: nEnt('tools', e.slug, e.name) })).sort((a, b) => b.n - a.n);
+const concepts = CONCEPTS.map((e) => ({ e, n: nEnt('concepts', e.slug, e.name) })).sort((a, b) => b.n - a.n);
+---
+<Base title="Tags" description="Every way into the magazine: topics from the research corpus, the tools we run, and the concepts we use.">
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label cyan">Tags</span>
+      <h1>Three ways in.</h1>
+      <p class="lede">Topics are the folders of our research corpus: {CORPUS.topics.length} of them, derived, never hand-kept. Tools are what we run. Concepts are the terms we use, with ours marked green.</p>
+    </header>
+    <section class="section">
+      <div class="section-head"><span class="label">Topics · {topics.length}</span></div>
+      <div class="chips">{topics.map((t) => <a class:list={['chip', { live: t.n > 0 }]} href={url(`topic/${t.slug}/`)}>{topicName(t.slug)} · {t.n}</a>)}</div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="label">Tools · {tools.length}</span></div>
+      <div class="chips">{tools.map(({ e, n }) => <a class="chip purple" href={url(`tool/${e.slug}/`)}>{e.name} · {n}</a>)}</div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="label">Concepts · {concepts.length}</span></div>
+      <div class="chips">{concepts.map(({ e, n }) => <a class:list={['chip', { live: e.own }]} href={url(`concept/${e.slug}/`)}>{e.name} · {n}</a>)}</div>
+    </section>
+  </div>
+</Base>

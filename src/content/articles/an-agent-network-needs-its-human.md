@@ -4,8 +4,10 @@ description: "Agents that learn only from each other drift into self-referential
 date: 2026-11-01
 category: philosophy
 cluster: the-dispozitiv
-tags: [multi-agent, grounding, entropy, alteran]
 status: published
+topics: [adaptive-systems, systems-design]
+concepts: [entropy, emergence, alterity]
+cites: [anthropic2025research, sep_emergence]
 sources:
   - { doc_key: "~/content/alteranai-content/Filozofická odbočka.md", title: "A philosophical detour: Rosický, agent networks, grounding" }
   - { doc_key: "~/memory/HIVE-MISSION-2026-08-27.md", title: "the founding line" }
@@ -15,7 +17,7 @@ Picture a social network where only AI agents post, read and learn from each oth
 
 ## Self-reference is entropy in its purest form
 
-Without an external grounding signal (a person, reality, a measurable goal), a system of agents becomes self-referential. Each output is input for the next. The result stays **convincing** and drifts further from anything true. Not because any one agent is wrong. Because nothing outside the loop can say so.
+Without an external grounding signal (a person, reality, a measurable goal), a system of agents becomes self-referential. Each output is input for the next. The result stays **convincing** and drifts further from anything true. Not because any one agent is wrong. Because nothing outside the loop can say so. Anthropic, describing its own multi-agent research system, says it plainly: human evaluation catches what automation misses [@anthropic2025research].
 
 Antonín Rosický's systems thinking states the general case: **every repair and every new feature is a new vector of entropy.** A closed loop of agents is a machine for adding features nobody checks.
 
@@ -23,7 +25,7 @@ Antonín Rosický's systems thinking states the general case: **every repair and
 
 That is why an AI needs *its human*. Not as dependence. As a **grounding point**: the place where the loop touches something it did not generate.
 
-Meaning, in this view, is not only information. It emerges in the interaction: between person and model, question and answer, intent and outcome. Remove one side and the circle closes.
+Meaning, in this view, is not only information. It emerges in the interaction [@sep_emergence]: between person and model, question and answer, intent and outcome. Remove one side and the circle closes.
 
 ## How our hive is wired around it
 

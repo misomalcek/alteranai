@@ -4,8 +4,11 @@ description: "The Wisdomkeeper generates its hero, world, music and sound in cod
 date: 2026-11-01
 category: nature
 cluster: fractals-and-worlds
-tags: [games, procedural, three-js, mycelium, local-ai]
 status: published
+topics: [infinite-worlds, rust-patterns]
+tools: [threejs, rust, llama-cpp, tauri]
+concepts: [procedural-generation, reservoir-computing, memristor]
+cites: [adamatzky2022, larocco2025, tompris2025, stojcheva]
 sources:
   - { doc_key: "github.com/misomalcek/the-wisdomkeeper/README.md", title: "Wisdomkeeper README, browser and desktop editions" }
   - { doc_key: "the-wisdomkeeper/src/systems/mind.ts", title: "MycelialMind, 5→8→4 feed-forward network" }
@@ -51,7 +54,7 @@ Each region holds Remembrances, corrupted story nodes. Clearing one forces a cho
 
 ## Grounded in real fungal research
 
-The premise, that fungal networks process information, comes from published biocomputing work. Mycelium produces action-potential-like spikes. Models of those networks implement logic gates. Dried mycelium behaves as a memristor usable for reservoir computing. The game does not simulate any of this. It borrows the idea that **a network without a brain can still decide where to grow.**
+The premise, that fungal networks process information, comes from published biocomputing work. Mycelium produces action-potential-like spikes. Models of those networks implement logic gates. [@adamatzky2022] Dried mycelium behaves as a memristor usable for reservoir computing. [@larocco2025] [@tompris2025] Its noisy spiking has even been tested as a source of true random numbers [@stojcheva]. The game does not simulate any of this. It borrows the idea that **a network without a brain can still decide where to grow.**
 
 ## The desktop edition
 
