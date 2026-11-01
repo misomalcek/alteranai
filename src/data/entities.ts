@@ -30,6 +30,8 @@ export const TOOLS: Entity[] = [
   { slug: 'astro', name: 'Astro', line: 'Static site framework. Builds this magazine, aisvet.sk and the CV.', sameAs: 'https://astro.build' },
   { slug: 'launchd', name: 'launchd', aka: ['launchctl'], line: 'macOS service manager. Starts every hive service from a plist; `kickstart -k` restarts the binary but does not reload the definition.', sameAs: 'https://en.wikipedia.org/wiki/Launchd', related: ['llama-cpp'] },
   { slug: 'anthropic-sdk', name: 'Anthropic SDK', line: 'Official client libraries for the Claude API. Team Brain used it from its first commit.', sameAs: 'https://docs.anthropic.com', related: ['claude'] },
+  { slug: 'cursor', name: 'Cursor', line: 'AI code editor. Three hive seats (associate, grok, composer) run in it; grok writes most of the code, composer verifies.', sameAs: 'https://cursor.com', related: ['claude'] },
+  { slug: 'pgvector', name: 'pgvector', line: 'Vector similarity search inside PostgreSQL, with HNSW and IVFFlat indexes.', sameAs: 'https://github.com/pgvector/pgvector', related: ['postgres', 'hnsw'] },
   { slug: 'notebooklm', name: 'NotebookLM', line: "Google's source-grounded notebook. Many of our blueprints were drafted there from a fixed set of papers; we keep them as synthesis, never as evidence for a number.", sameAs: 'https://notebooklm.google.com', related: ['provenance'] },
 ];
 
@@ -45,6 +47,8 @@ export const CONCEPTS: Entity[] = [
   { slug: 'nearest-neighbour', name: 'Nearest neighbour', aka: ['nearest-neighbour', 'nearest neighbor'], line: 'The closest stored vector to a query. In our space local neighbours stay meaningful even where global clusters do not.', related: ['embeddings', 'spectral-graph'] },
   { slug: 'intent-routing', name: 'Intent routing', aka: ['intent classification', 'intent detection'], line: 'Classifying what a query wants (an exact lookup, an exploration, a how-to) before choosing how to retrieve.', related: ['hybrid-search'] },
   // inference
+  { slug: 'mixture-of-experts', name: 'Mixture of experts', aka: ['MoE'], line: 'A model whose feed-forward layers are many experts, of which only a few run per token. Large on disk, cheaper per token.', sameAs: 'https://en.wikipedia.org/wiki/Mixture_of_experts', related: ['kv-cache', 'llama-cpp'] },
+  { slug: 'hnsw', name: 'HNSW', line: 'Hierarchical navigable small-world graph, the usual approximate nearest-neighbour index. It does not reclaim space from updated entries.', sameAs: 'https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world', related: ['pgvector', 'embeddings'] },
   { slug: 'kv-cache', name: 'KV cache', aka: ['prompt cache', 'prefix cache'], line: "The attention keys and values already computed for a prompt. Reusing a shared prefix skips recomputing it; llama.cpp reports the reused share as f_keep.", related: ['llama-cpp', 'kv-grafting'] },
   { slug: 'kv-grafting', name: 'KV-state grafting', line: 'Depositing verified solutions as KV-state blocks and restoring them into a frozen model when needed (arXiv:2607.14431). Our commodity version is slot save and restore.', related: ['kv-cache'] },
   { slug: 'sovereign-inference', name: 'Sovereign inference', line: 'Running the model on hardware you control, with no cloud call in the loop: data, cost and failure modes all stay yours.', own: true, related: ['llama-cpp', 'gemma'] },

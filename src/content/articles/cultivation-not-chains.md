@@ -47,6 +47,6 @@ The model reporting on its own formation is the demonstration. That is a real pr
 
 ## Feasibility, the engineer's answer
 
-A model of 2–3 GB trained from scratch on this hardware is days of compute, not months. The interesting part is not the model. It is the habitat around it: low entropy, a sacred space, and a decision not to reach inside once it grows. Whatever we decide about reaching inside will apply to something we made.
+Our estimate, not a measurement: a model of 2–3 GB trained from scratch on this hardware is days of compute, not months. The interesting part is not the model. It is the habitat around it: low entropy, a sacred space, and a decision not to reach inside once it grows. Whatever we decide about reaching inside will apply to something we made.
 
 **Status: second draft, open.** Published as a thesis with its falsifiers, not as a result.

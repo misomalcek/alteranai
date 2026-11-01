@@ -88,6 +88,16 @@ export const SOURCES: Record<string, Source> = {
   },
 
   // ── memory, plants, graphs ────────────────────────────────
+  m_spectral: {
+    authors: 'AlteranAI', title: 'MEASURED: the graph has community structure the embeddings do not; eigengap says k≈2, not 12',
+    venue: 'measurement record, 2026-09-18', year: 2026, topic: 'phyto', tier: 'own',
+    file: 'sources/phyto/2026-09-18-MEASURED-spectral-graph-has-structure-embeddings-do-not.md',
+  },
+  m_clusters: {
+    authors: 'AlteranAI', title: 'MEASURED: why KG clusters are empty; it is not the algorithm, and full text does not fix it',
+    venue: 'measurement record, 2026-09-18', year: 2026, topic: 'phyto', tier: 'own',
+    file: 'sources/phyto/2026-09-18-MEASURED-kg-clusters-root-cause.md',
+  },
   miao2024: {
     authors: 'J. Miao, L. Hu, Q. Zhang, L. Cao',
     title: 'Graph Memory Learning: Imitating Lifelong Remembering and Forgetting of Brain Networks',
