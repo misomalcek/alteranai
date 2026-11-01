@@ -36,6 +36,7 @@ export const TOOLS: Entity[] = [
   { slug: 'ffmpeg', name: 'ffmpeg', line: 'Audio and video toolkit. Merges narration and screen recordings, and detects scene changes for our video gate.', sameAs: 'https://ffmpeg.org', related: ['playwright'] },
   { slug: 'claude-code', name: 'Claude Code', line: "Anthropic's agentic coding tool. Prime, the hive's architecture seat, runs in it; its hooks carry our session continuity and commit guards.", sameAs: 'https://docs.anthropic.com/en/docs/claude-code', related: ['claude'] },
   { slug: 'git', name: 'git', line: 'Version control. Every hive seat commits through it; its configuration layers decide whose name a commit carries.', sameAs: 'https://git-scm.com', related: [] },
+  { slug: 'rsync', name: 'rsync', line: 'File synchronisation tool. Its --link-dest option makes unchanged files hard links to the previous backup, if the path is right.', sameAs: 'https://rsync.samba.org', related: [] },
   { slug: 'notebooklm', name: 'NotebookLM', line: "Google's source-grounded notebook. Many of our blueprints were drafted there from a fixed set of papers; we keep them as synthesis, never as evidence for a number.", sameAs: 'https://notebooklm.google.com', related: ['provenance'] },
 ];
 
