@@ -32,6 +32,10 @@ export const TOOLS: Entity[] = [
   { slug: 'anthropic-sdk', name: 'Anthropic SDK', line: 'Official client libraries for the Claude API. Team Brain used it from its first commit.', sameAs: 'https://docs.anthropic.com', related: ['claude'] },
   { slug: 'cursor', name: 'Cursor', line: 'AI code editor. Three hive seats (associate, grok, composer) run in it; grok writes most of the code, composer verifies.', sameAs: 'https://cursor.com', related: ['claude'] },
   { slug: 'pgvector', name: 'pgvector', line: 'Vector similarity search inside PostgreSQL, with HNSW and IVFFlat indexes.', sameAs: 'https://github.com/pgvector/pgvector', related: ['postgres', 'hnsw'] },
+  { slug: 'playwright', name: 'Playwright', line: 'Browser automation. Drives our screenshots, the CV PDF and the recorded product demos.', sameAs: 'https://playwright.dev', related: ['ffmpeg'] },
+  { slug: 'ffmpeg', name: 'ffmpeg', line: 'Audio and video toolkit. Merges narration and screen recordings, and detects scene changes for our video gate.', sameAs: 'https://ffmpeg.org', related: ['playwright'] },
+  { slug: 'claude-code', name: 'Claude Code', line: "Anthropic's agentic coding tool. Prime, the hive's architecture seat, runs in it; its hooks carry our session continuity and commit guards.", sameAs: 'https://docs.anthropic.com/en/docs/claude-code', related: ['claude'] },
+  { slug: 'git', name: 'git', line: 'Version control. Every hive seat commits through it; its configuration layers decide whose name a commit carries.', sameAs: 'https://git-scm.com', related: [] },
   { slug: 'notebooklm', name: 'NotebookLM', line: "Google's source-grounded notebook. Many of our blueprints were drafted there from a fixed set of papers; we keep them as synthesis, never as evidence for a number.", sameAs: 'https://notebooklm.google.com', related: ['provenance'] },
 ];
 
