@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import AxisPage from '../components/AxisPage.astro';
+import { engineeringCategories } from '../data/site';
+---
+<Base title="AI Engineering" node="engineering" description="Axis I: how a sovereign AI system is actually built. Retrieval, local inference, multi-agent work, and how to measure your own system.">
+  <div class="wrap">
+    <header class="stack" style="gap:16px;padding:56px 0 8px" data-reveal>
+      <span class="label">02 // AI Engineering · Axis I</span>
+      <h1>How it is <span class="grad">actually</span> built.</h1>
+      <p class="lede">Retrieval, local inference, memory and multi-agent work, from a system that runs every day on one machine. Measurement over explanation: when a number is here, the record it came from is named.</p>
+    </header>
+    <AxisPage axis="I" cats={engineeringCategories} />
+  </div>
+</Base>

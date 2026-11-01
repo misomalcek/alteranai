@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { categories, topicCategories } from '../../data/site';
+import { articles, type Article } from '../../data/util';
+
+export async function getStaticPaths() {
+  const all = await articles();
+  return categories.map((c) => ({ params: { slug: c.slug }, props: { c, list: all.filter((a) => a.data.category === c.slug) } }));
+}
+interface Props { c: (typeof categories)[number]; list: Article[] }
+const { c, list } = Astro.props;
+const node = topicCategories.includes(c.slug) ? 'topics' : 'engineering';
+---
+<Base title={c.name} node={node} description={c.line}>
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label">Category · Axis {c.axis}</span>
+      <h1>{c.name}</h1>
+      <p class="lede">{c.line}</p>
+    </header>
+    <section class="section">
+      {list.length > 0
+        ? <div class="grid g3">{list.map((a) => <ArticleCard a={a} />)}</div>
+        : <div class="card pad"><p class="dim" style="margin:0">First articles in preparation.</p></div>}
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/util';
+import { profiles } from '../data/site';
+
+// Figures are the CV's (~/Documents/md/cv-aktual.md), each with a path to its source.
+const figures = [
+  ['20', 'years across both sides of software delivery'],
+  ['93.9%', 'tool success over 1,352 production calls'],
+  ['64,644', 'lines of TypeScript on 29 runtime dependencies'],
+  ['10 / 10', 'rule retrieval, up from 1 in 5'],
+];
+
+const strengths = [
+  ['Production LLM systems, end to end', 'Anthropic SDK, agent loops, tool calling, prompt architecture, and handover to people who are not engineers.'],
+  ['Retrieval that is tested, not assumed', 'pgvector, Qdrant, Apache AGE, hand-written lexical and vector fusion (RRF), cross-encoder reranking, graph expansion, provenance tiers.'],
+  ['Sovereign and local AI', 'A custom llama.cpp build, GGUF quantisation, KV-cache and prompt-cache economics; a 12B model doing agentic work unattended on one machine.'],
+  ['Cost engineering', 'Cheap models route the tools, strong models write the synthesis. A 15-person deployment ran on one small VPS for about $30 a month.'],
+  ['Edge and cloud', 'Cloudflare Workers, KV, Workers AI and AI Search; Google Search Console, GA4, Knowledge Graph, PageSpeed and CrUX APIs in production.'],
+  ['Search, for eight years', 'International SEO leadership across CEE, Gibraltar, Malta and Hamburg. Work built for Asseco, Google, Lottoland, msg life and Swiss Re.'],
+];
+---
+<Base title=".com" node="about" description="Michal Malček: AI engineer building agentic systems end to end, local and cloud. Consultations, workshops and custom AI systems.">
+  <div class="wrap">
+    <header class="grid g2" style="gap:40px;align-items:center;padding:56px 0 8px" data-reveal>
+      <div class="stack" style="gap:18px">
+        <span class="label cyan">04 // .com</span>
+        <h1>Michal Malček</h1>
+        <p class="lede">AI engineer. I build agentic systems end to end: Claude Code and Cursor, retrieval, local and cloud models. I delivered a Claude-based knowledge hub to a 15-person team and handed it over clean, then built a sovereign AI system that runs on the machine on my desk. <strong style="color:var(--fg)">I measure before I claim</strong>: every figure on this site has a path back to its source.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn aurora" href="https://misomalcek.github.io/cyber-cv/">CV and contact</a>
+          <a class="btn second" href={url('portfolio/')}>Portfolio</a>
+        </div>
+      </div>
+      <div class="card" style="border-radius:24px">
+        <img src={url('media/logo.jpg')} alt="AlteranAI logo" width="1400" height="781" style="width:100%;height:auto" />
+      </div>
+    </header>
+
+    <section class="section" data-reveal>
+      <div class="grid g4">
+        {figures.map(([v, k]) => (
+          <div class="card pad">
+            <div style="font-size:34px;color:var(--green);font-variant-numeric:tabular-nums;line-height:1.1">{v}</div>
+            <div class="dim" style="font-size:14px;margin-top:6px">{k}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">What I bring</span><h2>Architectures that survive handover</h2></div>
+      <div class="grid g3">
+        {strengths.map(([h, p]) => (
+          <div class="card pad">
+            <h3 style="font-size:18px">{h}</h3>
+            <p class="dim" style="margin:8px 0 0;font-size:14px">{p}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">The offer</span><h2>Work with me</h2></div>
+      <div class="grid g3">
+        <div class="card pad"><span class="label green">Build</span><h3 style="margin-top:8px">Custom AI systems</h3><p class="dim" style="margin:8px 0 0;font-size:14px">Sovereign, cloud, or both where it makes sense. Retrieval, agents, tools, and a handover your team can run.</p></div>
+        <div class="card pad"><span class="label green">Advise</span><h3 style="margin-top:8px">Consultations</h3><p class="dim" style="margin:8px 0 0;font-size:14px">Architecture reviews, retrieval audits, cost and model-routing decisions, measured on your own data.</p></div>
+        <div class="card pad"><span class="label green">Teach</span><h3 style="margin-top:8px">Workshops</h3><p class="dim" style="margin:8px 0 0;font-size:14px">Working with Claude Code and local models, from sessions that shipped real systems.</p></div>
+      </div>
+      <p class="dim" style="margin:0">Open to employment as well as projects. The fastest way to reach me is through the contact on the <a href="https://misomalcek.github.io/cyber-cv/">CV</a>.</p>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">How this site works</span><h2>Built with the hive</h2></div>
+      <p class="lede">AlteranAI is written from inside Factorium: five AI seats and one human working on one machine. The models draft and measure; a human decides and signs off. Articles name the records their figures came from, and a figure that could not be verified is not published.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        {profiles.map((p) => <a class="tether" href={p.href} rel="me"><i></i>{p.name}</a>)}
+      </div>
+    </section>
+  </div>
+</Base>

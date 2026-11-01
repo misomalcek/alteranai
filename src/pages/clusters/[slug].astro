@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { clusters } from '../../data/site';
+import { url, articles, type Article } from '../../data/util';
+
+export async function getStaticPaths() {
+  const all = await articles();
+  return clusters.map((c) => ({ params: { slug: c.slug }, props: { c, list: all.filter((a) => a.data.cluster === c.slug) } }));
+}
+interface Props { c: (typeof clusters)[number]; list: Article[] }
+const { c, list } = Astro.props;
+const node = c.axis === 'I' ? 'engineering' : 'topics';
+---
+<Base title={c.name} node={node} description={`Cluster ${c.n}: ${c.line}`}>
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label" style={c.axis === 'I' ? '' : 'color:var(--green)'}>Cluster {String(c.n).padStart(2, '0')} · Axis {c.axis}</span>
+      <h1>{c.name}</h1>
+      <p class="lede">{c.line}</p>
+    </header>
+    <section class="section">
+      {list.length > 0
+        ? <div class="grid g3">{list.map((a) => <ArticleCard a={a} />)}</div>
+        : <div class="card pad"><p class="dim" style="margin:0">The material for this cluster is on disk and the first article is in preparation. <a href={url(`${node}/`)}>Browse what is live →</a></p></div>}
+    </section>
+  </div>
+</Base>

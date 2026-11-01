@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { render } from 'astro:content';
+import { url, articles, categoryOf, clusterOf, coverCols, fmtDate, readMinutes, tagSlug, type Article } from '../../data/util';
+import { topicCategories } from '../../data/site';
+
+export async function getStaticPaths() {
+  const all = await articles();
+  return all.map((a) => ({ params: { slug: a.id }, props: { a, all } }));
+}
+interface Props { a: Article; all: Article[] }
+const { a, all } = Astro.props;
+const { Content } = await render(a);
+const cat = categoryOf(a.data.category);
+const cl = clusterOf(a.data.cluster);
+const node = topicCategories.includes(cat.slug) ? 'topics' : 'engineering';
+const related = all.filter((x) => x.id !== a.id && x.data.cluster === a.data.cluster).concat(all.filter((x) => x.id !== a.id && x.data.cluster !== a.data.cluster && x.data.category === a.data.category)).slice(0, 3);
+---
+<Base title={a.data.title} description={a.data.description} node={node} field={false}>
+  <article class="wrap" style="padding-top:40px">
+    <header class="stack" style="gap:18px;max-width:860px" data-reveal>
+      <div class="chips">
+        <a class="chip" href={url(`categories/${cat.slug}/`)}>{cat.name}</a>
+        <a class="chip purple" href={url(`clusters/${cl.slug}/`)}>{String(cl.n).padStart(2, '0')} · {cl.name}</a>
+        {a.data.status === 'draft' && <span class="chip null">draft</span>}
+      </div>
+      <h1 style="font-size:clamp(32px,4.6vw,56px)">{a.data.title}</h1>
+      <p class="lede">{a.data.description}</p>
+      <span class="label ghost" style="letter-spacing:.1em">{fmtDate(a.data.date)} · {readMinutes(a.body)} min read</span>
+    </header>
+    <div class="card" style="aspect-ratio:21/8;margin:28px 0 36px;max-width:1100px">
+      <canvas data-cover data-title={a.data.title} data-cols={coverCols(a)} style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"></canvas>
+    </div>
+    <div class="prose">
+      <Content />
+    </div>
+    {(a.data.sources.length > 0 || a.data.tags.length > 0) && (
+      <aside class="card pad stack" style="gap:14px;max-width:68ch;margin-top:32px;border-color:rgba(158,119,255,.35)">
+        {a.data.sources.length > 0 && (
+          <div class="stack" style="gap:8px">
+            <span class="label">Provenance</span>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px" class="dim">
+              {a.data.sources.map((s) => <li><code style="font-family:var(--mono);color:var(--green);font-size:12px">{s.doc_key}</code> — {s.title}</li>)}
+            </ul>
+          </div>
+        )}
+        {a.data.tags.length > 0 && (
+          <div class="chips">{a.data.tags.map((t) => <a class="chip" href={url(`tags/${tagSlug(t)}/`)}>{t}</a>)}</div>
+        )}
+      </aside>
+    )}
+    {related.length > 0 && (
+      <section class="section">
+        <span class="label">Read next</span>
+        <div class="grid g3">{related.map((r) => <ArticleCard a={r} />)}</div>
+      </section>
+    )}
+  </article>
+</Base>

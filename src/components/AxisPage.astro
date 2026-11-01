@@ -1,0 +1,46 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import { categories, clusters } from '../data/site';
+import { url, articles } from '../data/util';
+
+interface Props { axis: 'I' | 'II'; cats: string[] }
+const { axis, cats } = Astro.props;
+const all = (await articles()).filter((a) => cats.includes(a.data.category));
+const axisClusters = clusters.filter((c) => c.axis === axis);
+const color = axis === 'I' ? 'var(--purple)' : 'var(--cyan)';
+---
+<section class="section" data-reveal>
+  <div class="grid g4">
+    {categories.filter((c) => cats.includes(c.slug)).map((c) => (
+      <a class="card pad" href={url(`categories/${c.slug}/`)}>
+        <div class="label" style={`color:${color}`}>Category</div>
+        <div style="font-size:20px;margin-top:6px">{c.name}</div>
+        <p class="dim" style="margin:6px 0 0;font-size:14px">{c.line}</p>
+      </a>
+    ))}
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="section-head"><span class="label">Articles</span><h2>{all.length} published</h2></div>
+  <div class="grid g3">{all.map((a) => <ArticleCard a={a} />)}</div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="section-head"><span class="label">Clusters · Axis {axis}</span><h2>Where each piece belongs</h2></div>
+  <div class="grid g3">
+    {axisClusters.map((c) => {
+      const n = all.filter((a) => a.data.cluster === c.slug).length;
+      return (
+        <a class="card pad" href={url(`clusters/${c.slug}/`)}>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <span class="label" style={`font-size:11px;color:${color}`}>{String(c.n).padStart(2, '0')}</span>
+            <span class:list={['chip', { live: n > 0 }]}>{n > 0 ? `${n} live` : 'in preparation'}</span>
+          </div>
+          <div style="font-size:18px;margin-top:8px">{c.name}</div>
+          <p class="dim" style="margin:6px 0 0;font-size:14px">{c.line}</p>
+        </a>
+      );
+    })}
+  </div>
+</section>

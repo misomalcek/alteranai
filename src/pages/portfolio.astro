@@ -1,0 +1,200 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/util';
+
+// Same facts as the CV portfolio (github.com/misomalcek/cyber-cv, src/pages/portfolio).
+// Every link was checked to answer 200 on 2026-11-01.
+const apps = [
+  {
+    name: 'Crystal RAG',
+    status: 'Live v0.4.10',
+    line: 'Point it at a folder and get a local, searchable knowledge crystal. Qdrant and the embedding model ship inside the app, so nothing leaves the machine.',
+    detail: 'Hybrid retrieval fuses vector, lexical and graph lists with reciprocal rank fusion (k=60), so a file the vector search missed still surfaces through its relations.',
+    stack: 'Tauri · Rust · three.js · Qdrant · local embeddings',
+    repo: 'https://github.com/misomalcek/crystal-rag',
+    page: 'https://misomalcek.github.io/crystal-rag/',
+    downloads: [
+      { label: 'macOS', href: 'https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_aarch64.dmg' },
+      { label: 'Windows', href: 'https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_x64-setup.exe' },
+    ],
+  },
+  {
+    name: 'The Wisdomkeeper',
+    status: 'Live 0.1.2',
+    line: 'A game about infinite fractal worlds, with a browser edition and a desktop build tested on macOS and Windows.',
+    detail: 'A custom inference runtime in Rust, 2,841 lines over llama.cpp bindings: a log-probability judge, a grammar-constrained actor, a sidecar with nothing on the network. Both models run on an 8 GB Windows laptop with integrated graphics. Desktop source private, installers public.',
+    stack: 'Tauri · Rust · llama.cpp · three.js',
+    repo: 'https://github.com/misomalcek/the-wisdomkeeper',
+    page: 'https://misomalcek.github.io/the-wisdomkeeper/',
+    downloads: [
+      { label: 'macOS', href: 'https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_aarch64.dmg' },
+      { label: 'Windows', href: 'https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_x64-setup.exe' },
+    ],
+  },
+  {
+    name: 'SEO Brain',
+    status: 'Source public',
+    line: 'Team Brain as a product: one codebase that deploys three ways, to a Linux VPS, as a macOS app, or as a Windows app.',
+    detail: 'Credentials are the user\'s own: Claude API, OpenRouter or any OpenAI-compatible endpoint including a local one, plus Google service accounts for Search Console, GA4, PageSpeed and CrUX. Source public, release in progress.',
+    stack: 'Express · Next.js · Anthropic SDK · Postgres (41 migrations)',
+    repo: 'https://github.com/misomalcek/seo-brain',
+    page: '',
+    downloads: [],
+  },
+];
+
+const systems = [
+  {
+    name: 'Team Brain',
+    status: 'Delivered June 2026',
+    shot: 'media/brain-ui-chat.jpg',
+    video: '',
+    wins: [
+      ['1,352', 'real tool calls'],
+      ['93.9%', 'tool success'],
+      ['15', 'people on the team'],
+      ['~$30', 'per month'],
+    ],
+    line: 'A Claude-based knowledge hub for a 15-person SEO and content team, on one 8 GB VPS, delivered and handed over. Haiku routes the tools, Sonnet writes the synthesis. Four live data sources: Search Console, GA4, Ahrefs, CrUX. Every figure is from the database usage report, not a demo.',
+    stack: 'Anthropic SDK · Postgres · one Hetzner 8 GB VPS',
+  },
+  {
+    name: 'Factorium',
+    status: 'Runs daily',
+    shot: 'media/knowledge-crystal.jpg',
+    video: 'media/factorium.mp4',
+    wins: [
+      ['12B', 'local model doing the work'],
+      ['24 GB', 'one machine'],
+      ['131,072', 'token context'],
+      ['5 + 1', 'AI seats and one human'],
+    ],
+    line: 'A sovereign AI system on one machine: a local Gemma-4 12B with tools, a hybrid retrieval stack over Postgres and Qdrant, a knowledge graph, and a hive of five AI seats and one human. This magazine is written from inside it.',
+    stack: 'TypeScript · llama.cpp · Qdrant · Postgres + AGE',
+  },
+];
+
+const repos = [
+  { name: 'aisearch', what: 'A retrieval post-mortem: why a Cloudflare AI Search index returned nothing for pages full of text, and what fixed it.' },
+  { name: 'aurora', what: 'A multi-provider AI chat in one HTML file: streaming, live markdown, a reasoning panel, token stats, optional RAG.' },
+  { name: 'mini-grok', what: 'A native macOS chat window in Python against AppKit directly. No Electron, no web view. 352 lines.' },
+  { name: 'gkgg', what: 'A tested Python wrapper around the Google Knowledge Graph Search API, with its build spec.' },
+  { name: 'gemma4-studio', what: 'A minimal local studio for Gemma-4: one TypeScript server, one HTML page, no framework.' },
+  { name: 'mini-harness', what: 'Agent definitions plus a written comparison of open-source multi-agent frameworks. The decision it produced: build none.' },
+  { name: 'todoapi', what: 'A REST API over a real SQLite database in 401 lines. Express, node:test, no ORM, 16 of 16 tests passing.' },
+  { name: 'hive-voice-echo', what: 'A voice loop: record, transcribe, answer, speak back. It broke in audio encoding, not in the models.' },
+  { name: 'claude-skills', what: '34 packaged skills and the framework they came from, including the roughly 60% later pruned as waste.' },
+  { name: 'atauri', what: 'A Tauri and Rust harness: a local/cloud model router, a vector layer, persistent context. The direct ancestor of Factorium.' },
+  { name: 'genim', what: 'An image generator for the hive: an Express server against the Gemini image API.' },
+  { name: 'codex-symbiosis', what: 'The written principles the later harnesses were compiled from.' },
+];
+
+const games = [
+  { name: 'The Wisdomkeeper', play: 'https://misomalcek.github.io/the-wisdomkeeper/', what: 'Infinite fractal worlds in the browser.' },
+  { name: 'neon-shift', play: 'https://misomalcek.github.io/neon-shift/', what: 'A playable prototype generated from a single sentence.' },
+  { name: 'Cyber Monkey Space 3D', play: 'https://misomalcek.github.io/cyber-monkey-3d/', what: 'A lost astronaut against cyber daemons.' },
+  { name: 'AI Alignment Odyssey', play: 'https://misomalcek.github.io/ai-alignment/', what: 'A short game about alignment, played rather than lectured.' },
+  { name: 'Cyber Monkeys', play: 'https://misomalcek.github.io/cyber-monkeys/', what: 'A one-shot space game, no account.' },
+];
+---
+<Base title="AI Portfolio" node="portfolio" description="Three shipped apps with installers, two production AI systems, open-source repositories and browser games by Michal Malček.">
+  <div class="wrap">
+    <header class="stack" style="gap:16px;padding:56px 0 8px" data-reveal>
+      <span class="label green">03 // AI Portfolio</span>
+      <h1>What is <span class="grad">public</span>, and runs.</h1>
+      <p class="lede">Three apps with installers, two AI systems in real use, and the repositories around them. Each entry links to something you can download, open, or read the source of.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn" href="https://misomalcek.github.io/cyber-cv/">Full CV</a>
+        <a class="btn second" href="https://github.com/misomalcek">GitHub profile</a>
+      </div>
+    </header>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">Three apps</span><h2>Shipped, with installers</h2></div>
+      <div class="grid g3">
+        {apps.map((p) => (
+          <article class="card hover">
+            <div style="position:relative;aspect-ratio:16/9;background:var(--deep)"><canvas data-cover data-title={p.name} data-cols="0,255,157;0,239,252;158,119,255" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"></canvas></div>
+            <div class="pad stack" style="gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                <h3 style="font-size:22px">{p.name}</h3>
+                <span class:list={['chip', { live: p.downloads.length > 0, purple: p.downloads.length === 0 }]}>{p.status}</span>
+              </div>
+              <p style="margin:0">{p.line}</p>
+              <p class="dim" style="margin:0;font-size:14px">{p.detail}</p>
+              <span class="label ghost" style="font-size:11px;letter-spacing:.06em;text-transform:none">{p.stack}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
+                {p.downloads.map((d) => <a class="btn" style="padding:9px 16px;font-size:12px" href={d.href}>↓ {d.label}</a>)}
+                <a class="btn second" style="padding:9px 16px;font-size:12px" href={p.repo}>Source</a>
+                {p.page && <a class="btn ghost-btn" style="padding:9px 6px;font-size:12px" href={p.page}>Page →</a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">Two systems</span><h2>In real use, measured</h2></div>
+      <div class="stack" style="gap:18px">
+        {systems.map((s) => (
+          <article class="card grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0">
+            <div style="position:relative;min-height:240px;background:var(--deep)">
+              {s.video
+                ? <video controls preload="none" poster={url(s.shot)} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><source src={url(s.video)} type="video/mp4" /></video>
+                : <img src={url(s.shot)} alt={`${s.name} interface`} loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />}
+            </div>
+            <div class="pad stack" style="gap:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                <h3 style="font-size:24px">{s.name}</h3>
+                <span class="chip live">{s.status}</span>
+              </div>
+              <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:10px">
+                {s.wins.map(([v, k]) => (
+                  <div style="padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06)">
+                    <div style="font-size:22px;color:var(--green);font-variant-numeric:tabular-nums">{v}</div>
+                    <div class="ghost" style="font-size:12px">{k}</div>
+                  </div>
+                ))}
+              </div>
+              <p style="margin:0" class="dim">{s.line}</p>
+              <span class="label ghost" style="font-size:11px;letter-spacing:.06em;text-transform:none">{s.stack}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">Open source</span><h2>Repositories, read from the code</h2><p class="lede">Each description was written from the repository itself, not from its name.</p></div>
+      <div class="grid g3">
+        {repos.map((r) => (
+          <a class="card pad" href={`https://github.com/misomalcek/${r.name}`}>
+            <div style="font-family:var(--mono);font-size:14px;color:var(--cyan)">{r.name}</div>
+            <p class="dim" style="margin:8px 0 0;font-size:14px">{r.what}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">Games</span><h2>Played in the browser</h2></div>
+      <div class="grid g4">
+        {games.map((g) => (
+          <a class="card pad" href={g.play}>
+            <div style="font-size:17px">{g.name} <span style="color:var(--cyan)">▶</span></div>
+            <p class="dim" style="margin:6px 0 0;font-size:14px">{g.what}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head"><span class="label">Magazines</span><h2>Writing in public</h2></div>
+      <div class="grid g2">
+        <a class="card pad" href="https://aisvet.sk"><h3>aisvet.sk</h3><p class="dim" style="margin:6px 0 0">A magazine about AI, made with AI. Practical Slovak writing, with a podcast and a YouTube channel.</p></a>
+        <a class="card pad" href={url()}><h3>alteranai.com</h3><p class="dim" style="margin:6px 0 0">This site. The engineering magazine in English, written from the running system.</p></a>
+      </div>
+    </section>
+  </div>
+</Base>

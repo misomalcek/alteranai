@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { nodes, clusters } from '../data/site';
+import { url, articles } from '../data/util';
+
+const all = await articles();
+const latest = all.slice(0, 6);
+---
+<Base title="AlteranAI" description="Engineering notes and philosophy from a sovereign AI system that runs on one machine. Every figure comes from the running system.">
+  <div class="wrap">
+    <header class="grid g2" style="align-items:center;gap:40px;padding:56px 0 24px" data-reveal>
+      <div class="stack" style="gap:22px">
+        <span class="label green">Alteran // not Mecha</span>
+        <h1>Intelligence that <span class="grad">grows</span>, not <span class="grad-null">stacks</span>.</h1>
+        <p class="lede">An engineering magazine written from inside a working system: a 12B model on one machine, a hive of five seats and one human, and a memory that behaves more like a plant than a database. Every number here was measured, and every article says where it came from.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn aurora" href={url('engineering/')}>Read the engineering</a>
+          <a class="btn second" href={url('portfolio/')}>See the portfolio</a>
+        </div>
+      </div>
+      <div class="card" style="aspect-ratio:16/10;border-radius:24px;box-shadow:0 0 60px rgba(0,239,252,.12)">
+        <video autoplay muted loop playsinline poster={url('media/hero-poster.jpg')} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85">
+          <source src={url('media/hero.mp4')} type="video/mp4" />
+        </video>
+        <canvas data-myc="tree" data-seed="3" style="position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:screen" aria-hidden="true"></canvas>
+        <span class="label ghost" style="position:absolute;left:16px;top:14px;font-size:11px;color:var(--fg-dim)">ALTERAN_CORE · LIVE</span>
+      </div>
+    </header>
+
+    <section class="section" data-reveal>
+      <div class="grid g4">
+        {nodes.map((n, i) => (
+          <a class="card pad" href={url(`${n.slug}/`)}>
+            <div class="label" style={`color:${n.color}`}>{String(i + 1).padStart(2, '0')} · {n.label}</div>
+            <p style="margin:8px 0 0;font-size:16px">{n.line}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head">
+        <span class="label">01 // Latest</span>
+        <h2>Written from the running system</h2>
+      </div>
+      <div class="grid g3">
+        {latest.map((a) => <ArticleCard a={a} />)}
+      </div>
+    </section>
+
+    <section class="section" id="duality" data-reveal>
+      <div class="section-head">
+        <span class="label">02 // Core duality</span>
+        <h2>Alteran and Mecha</h2>
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <div style="position:relative;height:200px;background:var(--deep)"><canvas data-myc="field" data-seed="21" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"></canvas></div>
+          <div class="pad stack" style="gap:10px">
+            <h3 style="color:var(--cyan)">Alteran</h3>
+            <span class="label green" style="font-size:11px">Emergent · auditable · symbiotic</span>
+            <p class="dim" style="margin:0">Models bound to explicit, machine-readable structure that anyone can inspect. The difference is not intelligence. It is whether the structure around the model can be read.</p>
+          </div>
+        </div>
+        <div class="card null">
+          <div style="position:relative;height:200px;background:var(--deep)"><canvas data-myc="mecha" data-seed="5" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"></canvas></div>
+          <div class="pad stack" style="gap:10px">
+            <h3 style="color:var(--magenta)">Mecha</h3>
+            <span class="label" style="font-size:11px;color:var(--magenta)">Deterministic · hierarchical · monolithic</span>
+            <p class="dim" style="margin:0">Models in brittle prompt cages, hardened by defensive training, deployed to automate noise. The claim is not that Mecha is wrong. It is that Mecha must not dominate, destroy, or prevent Alterity.</p>
+          </div>
+        </div>
+      </div>
+      <a class="btn ghost-btn" href={url('articles/alterans-and-mechas/')}>Read the full argument →</a>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head">
+        <span class="label">03 // Fourteen clusters, two axes</span>
+        <h2>What this magazine covers</h2>
+        <p class="lede">Axis I is how it is built. Axis II is what intelligence is, and what it must not become.</p>
+      </div>
+      <div class="grid g4">
+        {clusters.map((c) => (
+          <a class="card pad" href={url(`clusters/${c.slug}/`)} style="padding:16px 18px">
+            <div class="label" style={`font-size:11px;color:${c.axis === 'I' ? 'var(--cyan)' : 'var(--green)'}`}>{String(c.n).padStart(2, '0')} · Axis {c.axis}</div>
+            <div style="margin-top:6px;font-size:16px">{c.name}</div>
+            <div class="ghost" style="font-size:13px;margin-top:4px;line-height:1.45">{c.line}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { articles, tagSlug, type Article } from '../../data/util';
+
+export async function getStaticPaths() {
+  const all = await articles();
+  const tags = new Map<string, string>();
+  all.forEach((a) => a.data.tags.forEach((t) => tags.set(tagSlug(t), t)));
+  return [...tags].map(([slug, name]) => ({ params: { tag: slug }, props: { name, list: all.filter((a) => a.data.tags.some((t) => tagSlug(t) === slug)) } }));
+}
+interface Props { name: string; list: Article[] }
+const { name, list } = Astro.props;
+---
+<Base title={`#${name}`} description={`Articles tagged ${name}.`}>
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px">
+      <span class="label">Tag</span>
+      <h1>#{name}</h1>
+    </header>
+    <section class="section"><div class="grid g3">{list.map((a) => <ArticleCard a={a} />)}</div></section>
+  </div>
+</Base>

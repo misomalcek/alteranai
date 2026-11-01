@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/util';
+---
+<Base title="Not found" description="This path does not exist.">
+  <div class="wrap stack" style="gap:18px;padding:96px 0">
+    <span class="label" style="color:var(--magenta)">404 // Null path</span>
+    <h1>No hypha grew here.</h1>
+    <p class="lede">The page you asked for does not exist, or it moved.</p>
+    <a class="btn" href={url()} style="align-self:flex-start">Back to the network</a>
+  </div>
+</Base>

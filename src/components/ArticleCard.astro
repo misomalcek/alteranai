@@ -1,0 +1,16 @@
+---
+import type { Article } from '../data/util';
+import { url, clusterOf, coverCols, fmtDate } from '../data/util';
+interface Props { a: Article }
+const { a } = Astro.props;
+const c = clusterOf(a.data.cluster);
+---
+<a class="card acard" href={url(`articles/${a.id}/`)} data-reveal>
+  <div class="cover"><canvas data-cover data-title={a.data.title} data-cols={coverCols(a)} aria-hidden="true"></canvas></div>
+  <div class="body">
+    <span class="meta">{String(c.n).padStart(2, '0')} · {c.name.toUpperCase()}</span>
+    <span class="title">{a.data.title}</span>
+    <p class="desc">{a.data.description}</p>
+    <span class="meta">{fmtDate(a.data.date)}{a.data.status === 'draft' && ' · DRAFT'}</span>
+  </div>
+</a>

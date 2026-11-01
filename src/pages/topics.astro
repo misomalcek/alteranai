@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import AxisPage from '../components/AxisPage.astro';
+import { topicCategories } from '../data/site';
+---
+<Base title="AI Topics" node="topics" description="Axis II: what intelligence is, and what it must not become. Philosophy, the Alteran line, natural flow, fractals.">
+  <div class="wrap">
+    <header class="stack" style="gap:16px;padding:56px 0 8px" data-reveal>
+      <span class="label cyan">01 // AI Topics · Axis II</span>
+      <h1>What intelligence <span class="grad">is</span>.</h1>
+      <p class="lede">The line a tutorial site cannot carry: the axioms, the boundary between Alteran and Mecha, and the natural-flow view that a gradient finds the optimal path with no IQ at all.</p>
+    </header>
+    <AxisPage axis="II" cats={topicCategories} />
+  </div>
+</Base>
