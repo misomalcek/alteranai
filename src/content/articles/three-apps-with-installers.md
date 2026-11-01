@@ -43,7 +43,7 @@ More on how it works: [a mycelial world in 190 kilobytes](../a-mycelial-world-in
 
 - **Your credentials:** Claude API, OpenRouter, or any OpenAI-compatible endpoint, including a local one. Plus Google service accounts for Search Console, GA4, PageSpeed and CrUX.
 - **Stack:** Express, Next.js, the Anthropic SDK, Postgres with 41 migrations.
-- [Source](https://github.com/misomalcek/seo-brain). Release in progress.
+- [Source](https://github.com/misomalcek/seo-brain). [macOS](https://github.com/misomalcek/seo-brain/releases/download/v0.1.0/seo-brain_0.1.0_aarch64.dmg) and [Windows](https://github.com/misomalcek/seo-brain/releases/download/v0.1.0/seo-brain_0.1.0_x64-setup.exe), version 0.1.0.
 
 ## What they share
 

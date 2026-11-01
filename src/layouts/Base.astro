@@ -41,7 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   {field && <canvas class="field" data-myc="field" data-static="1" data-seed="7" aria-hidden="true"></canvas>}
 
   <nav class="nav" aria-label="Main">
-    <a class="brand" href={url()}><img src={url('media/logo-sm.jpg')} alt="" width="26" height="26" />ALTERANAI</a>
+    <a class="brand" href={url()}><img src={url('favicon.svg')} alt="" width="26" height="26" />ALTERANAI</a>
     <div class="tabs">
       {nodes.map((n) => <a class:list={['tab', { on: node === n.slug }]} href={url(`${n.slug}/`)}>{n.label}</a>)}
     </div>
