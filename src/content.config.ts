@@ -33,6 +33,14 @@ const articles = defineCollection({
     verified_at: z.coerce.date().optional(),
     /** Our own records the numbers come from (hive memory, logs, code). */
     sources: z.array(z.object({ doc_key: z.string(), title: z.string() })).default([]),
+    /** A listenable episode for this article. `kind` says what it is, so a generated discussion
+     *  is never mistaken for a measurement: notebooklm = AI audio overview of the sources. */
+    audio: z.object({
+      src: z.string().url(),
+      title: z.string(),
+      minutes: z.number().int().positive(),
+      kind: z.enum(['notebooklm', 'own']).default('notebooklm'),
+    }).optional(),
   }),
 });
 

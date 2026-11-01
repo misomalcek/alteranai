@@ -1,0 +1,120 @@
+---
+/**
+ * One episode, one line, no library. Play, seek, speed, download.
+ *
+ * Built after the cyber-cv MiniPlayer, but per article and without the
+ * cross-page persistence: an article episode belongs to its page.
+ * `kind` is printed under the controls, so a generated discussion of the
+ * sources is never read as a measurement.
+ */
+interface Props { src: string; title: string; minutes: number; kind: 'notebooklm' | 'own' }
+const { src, title, minutes, kind } = Astro.props;
+const note = kind === 'notebooklm'
+  ? 'AI-generated audio overview (NotebookLM) of the sources behind this article. A discussion, not a measurement: the figures in the text are the checked ones.'
+  : 'Recorded by us.';
+---
+<div class="ap card" data-ap data-src={src}>
+  <button type="button" class="ap-play" data-ap-toggle aria-label={`Play: ${title}`}>
+    <svg data-ap-icon-play width="14" height="16" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M0 0.5L10 6L0 11.5V0.5Z" /></svg>
+    <svg data-ap-icon-pause width="14" height="16" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true" style="display:none"><path d="M0 0h3.2v12H0zM6.8 0H10v12H6.8z" /></svg>
+  </button>
+  <div class="ap-main">
+    <div class="ap-top">
+      <span class="label cyan" style="font-size:11px">Listen · {minutes} min</span>
+      <span class="ap-title">{title}</span>
+    </div>
+    <div class="ap-bar">
+      <span class="ap-time" data-ap-cur>0:00</span>
+      <input type="range" class="ap-seek" data-ap-seek min="0" max="1000" value="0" aria-label="Seek" />
+      <span class="ap-time" data-ap-dur>{minutes}:00</span>
+      <button type="button" class="ap-speed" data-ap-speed aria-label="Playback speed">1×</button>
+      <a class="ap-dl" href={src} download aria-label="Download episode">↓</a>
+    </div>
+    <p class="ap-note">{note}</p>
+  </div>
+</div>
+
+<style>
+  .ap { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; margin: 0 0 32px; max-width: 860px; }
+  .ap-play {
+    flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+    color: #06080C; border: 0; background: linear-gradient(120deg, var(--cyan), var(--purple));
+    box-shadow: 0 0 24px rgba(0,239,252,.35); transition: transform .15s var(--ease-grow);
+  }
+  .ap-play:hover { transform: scale(1.05); }
+  .ap-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .ap-top { display: flex; flex-direction: column; gap: 4px; }
+  .ap-title { font-size: 16px; color: var(--fg); line-height: 1.35; }
+  .ap-bar { display: flex; align-items: center; gap: 10px; }
+  .ap-time { font-family: var(--mono); font-size: 12px; color: var(--fg-dim); min-width: 38px; text-align: center; }
+  .ap-seek { flex: 1; min-width: 0; accent-color: var(--cyan); height: 4px; cursor: pointer; }
+  .ap-speed, .ap-dl {
+    font-family: var(--mono); font-size: 12px; color: var(--fg-dim); background: none; text-decoration: none;
+    border: 1px solid var(--edge); border-radius: 999px; padding: 4px 10px; cursor: pointer; line-height: 1.2;
+  }
+  .ap-speed:hover, .ap-dl:hover { color: var(--cyan); border-color: var(--edge-hover); }
+  .ap-note { margin: 0; font-size: 12.5px; color: var(--fg-ghost); line-height: 1.5; }
+  @media (max-width: 560px) {
+    .ap { padding: 14px; gap: 12px; }
+    .ap-play { width: 42px; height: 42px; }
+    .ap-dl { display: none; }
+  }
+</style>
+
+<script>
+  const fmt = (s: number) => {
+    if (!Number.isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return `${m}:${String(r).padStart(2, '0')}`;
+  };
+  const SPEEDS = [1, 1.25, 1.5, 2];
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-ap]')) {
+    const audio = new Audio();
+    audio.preload = 'none';
+    const toggle = root.querySelector<HTMLButtonElement>('[data-ap-toggle]')!;
+    const iPlay = root.querySelector<SVGElement>('[data-ap-icon-play]')!;
+    const iPause = root.querySelector<SVGElement>('[data-ap-icon-pause]')!;
+    const seek = root.querySelector<HTMLInputElement>('[data-ap-seek]')!;
+    const cur = root.querySelector<HTMLElement>('[data-ap-cur]')!;
+    const dur = root.querySelector<HTMLElement>('[data-ap-dur]')!;
+    const speed = root.querySelector<HTMLButtonElement>('[data-ap-speed]')!;
+    let dragging = false;
+
+    const paint = () => {
+      const on = !audio.paused;
+      iPlay.style.display = on ? 'none' : '';
+      iPause.style.display = on ? '' : 'none';
+      toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
+    };
+    toggle.addEventListener('click', () => {
+      if (!audio.src) audio.src = root.dataset.src!;
+      if (audio.paused) {
+        // One episode at a time across the page.
+        document.dispatchEvent(new CustomEvent('ap:play', { detail: root }));
+        audio.play().catch(() => {});
+      } else audio.pause();
+    });
+    document.addEventListener('ap:play', (e) => { if ((e as CustomEvent).detail !== root) audio.pause(); });
+    audio.addEventListener('play', paint);
+    audio.addEventListener('pause', paint);
+    audio.addEventListener('ended', paint);
+    audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
+    audio.addEventListener('timeupdate', () => {
+      cur.textContent = fmt(audio.currentTime);
+      if (!dragging && audio.duration) seek.value = String(Math.round((audio.currentTime / audio.duration) * 1000));
+    });
+    seek.addEventListener('input', () => { dragging = true; if (audio.duration) cur.textContent = fmt((+seek.value / 1000) * audio.duration); });
+    seek.addEventListener('change', () => {
+      dragging = false;
+      if (!audio.src) audio.src = root.dataset.src!;
+      const go = () => { audio.currentTime = (+seek.value / 1000) * audio.duration; };
+      if (audio.duration) go(); else audio.addEventListener('loadedmetadata', go, { once: true });
+    });
+    speed.addEventListener('click', () => {
+      const next = SPEEDS[(SPEEDS.indexOf(audio.playbackRate) + 1) % SPEEDS.length];
+      audio.playbackRate = next;
+      speed.textContent = `${next}×`;
+    });
+  }
+</script>

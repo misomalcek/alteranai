@@ -11,6 +11,6 @@ const c = clusterOf(a.data.cluster);
     <span class="meta">{String(c.n).padStart(2, '0')} · {c.name.toUpperCase()}</span>
     <span class="title">{a.data.title}</span>
     <p class="desc">{a.data.description}</p>
-    <span class="meta">{fmtDate(a.data.date)}{a.data.status === 'draft' && ' · DRAFT'}</span>
+    <span class="meta">{fmtDate(a.data.date)}{a.data.audio && ` · ▶ ${a.data.audio.minutes} min audio`}{a.data.status === 'draft' && ' · DRAFT'}</span>
   </div>
 </a>

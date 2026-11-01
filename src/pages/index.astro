@@ -1,44 +1,101 @@
 ---
 import Base from '../layouts/Base.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import { nodes, clusters } from '../data/site';
-import { url, articles } from '../data/util';
+import { nodes, clusters, topicCategories, engineeringCategories } from '../data/site';
+import { apps } from '../data/apps';
+import { url, articles, topicsOf, topicName, fmtDate, CORPUS } from '../data/util';
 
 const all = await articles();
-const latest = all.slice(0, 9);
+const latest = all.slice(0, 6);
+
+// Counts behind every entry in the fold, so the map shows where the writing actually is.
+const nCluster = (slug: string) => all.filter((a) => a.data.cluster === slug).length;
+const nCats = (cats: readonly string[]) => all.filter((a) => cats.includes(a.data.category)).length;
+const nodeCount: Record<string, number> = {
+  topics: nCats(topicCategories),
+  engineering: nCats(engineeringCategories),
+  portfolio: apps.length,
+};
+const foldClusters = clusters
+  .map((c) => ({ ...c, count: nCluster(c.slug) }))
+  .filter((c) => c.count > 0)
+  .sort((a, b) => b.count - a.count || a.n - b.n)
+  .slice(0, 8);
+
+// Topic tags: declared topics plus the corpus folder of every cited source (see topicsOf).
+const tagged = CORPUS.topics
+  .map((t) => ({ slug: t.slug, items: all.filter((a) => topicsOf(a).includes(t.slug)) }))
+  .filter((t) => t.items.length > 0)
+  .sort((a, b) => b.items.length - a.items.length || a.slug.localeCompare(b.slug));
+const byTag = tagged.slice(0, 6);
+
+// Axis I, the engineering clusters, each with its newest article.
+const engClusters = clusters
+  .filter((c) => c.axis === 'I')
+  .map((c) => ({ ...c, items: all.filter((a) => a.data.cluster === c.slug) }))
+  .filter((c) => c.items.length > 0);
 ---
 <Base title="AlteranAI" description="Engineering notes and philosophy from a sovereign AI system that runs on one machine. Every figure comes from the running system.">
-  <div class="wrap">
-    <header class="grid g2" style="align-items:center;gap:40px;padding:56px 0 24px" data-reveal>
-      <div class="stack" style="gap:22px">
-        <span class="label green">Alteran // not Mecha</span>
-        <h1>Intelligence that <span class="grad">grows</span>, not <span class="grad-null">stacks</span>.</h1>
-        <p class="lede">An engineering magazine written from inside a working system: a 12B model on one machine, a hive of five seats and one human, and a memory that behaves more like a plant than a database. Every number here was measured, and every article says where it came from.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn aurora" href={url('engineering/')}>Read the engineering</a>
-          <a class="btn second" href={url('portfolio/')}>See the portfolio</a>
+  <section class="fold">
+    <video class="bg" autoplay muted loop playsinline preload="auto" poster={url('media/hero-poster.jpg')} aria-hidden="true">
+      <source src={url('media/hero.mp4')} type="video/mp4" />
+    </video>
+    <div class="veil" aria-hidden="true"></div>
+    <div class="wrap fold-inner">
+      <span class="label green">Alteran // not Mecha</span>
+      <h1>Intelligence that <span class="grad">grows</span>, not <span class="grad-null">stacks</span>.</h1>
+      <p class="lede">An engineering magazine written from inside a working system. Every number was measured, and every article says where it came from.</p>
+
+      <div class="map">
+        <div class="col">
+          <p class="col-label">Sections</p>
+          {nodes.map((n, i) => (
+            <a class="entry" href={url(`${n.slug}/`)} style={`--tone:${n.color}`}>
+              <span class="ico" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="txt">
+                <span class="t">{n.label}</span>
+                <span class="s">{nodeCount[n.slug] !== undefined ? `${nodeCount[n.slug]} ${n.slug === 'portfolio' ? 'apps' : 'articles'} · ` : ''}{n.line}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <div class="col">
+          <p class="col-label">Clusters</p>
+          <div class="cluster-grid">
+            {foldClusters.map((c) => (
+              <a class="entry slim" href={url(`clusters/${c.slug}/`)} style={`--tone:${c.axis === 'I' ? 'var(--cyan)' : 'var(--green)'}`}>
+                <span class="ico sm" aria-hidden="true">{String(c.n).padStart(2, '0')}</span>
+                <span class="txt"><span class="t">{c.name}</span><span class="s">{c.count === 1 ? '1 article' : `${c.count} articles`}</span></span>
+              </a>
+            ))}
+          </div>
+          <a class="more" href={url('topics/')}>All {clusters.length} clusters →</a>
+        </div>
+
+        <div class="col">
+          <p class="col-label">Latest</p>
+          {all.slice(0, 3).map((a) => (
+            <a class="entry" href={url(`articles/${a.id}/`)} style="--tone:var(--purple)">
+              <span class="txt"><span class="t">{a.data.title}</span><span class="s">{fmtDate(a.data.date)}</span></span>
+            </a>
+          ))}
+          <a class="more" href={url('engineering/')}>All {all.length} articles →</a>
         </div>
       </div>
-      <div class="card" style="aspect-ratio:16/10;border-radius:24px;box-shadow:0 0 60px rgba(0,239,252,.12)">
-        <video autoplay muted loop playsinline poster={url('media/hero-poster.jpg')} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85">
-          <source src={url('media/hero.mp4')} type="video/mp4" />
-        </video>
-        <canvas data-myc="tree" data-seed="3" style="position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:screen" aria-hidden="true"></canvas>
-        <span class="label ghost" style="position:absolute;left:16px;top:14px;font-size:11px;color:var(--fg-dim)">ALTERAN_CORE · LIVE</span>
-      </div>
-    </header>
+    </div>
+  </section>
 
-    <section class="section" data-reveal>
-      <div class="grid g4">
-        {nodes.map((n, i) => (
-          <a class="card pad" href={url(`${n.slug}/`)}>
-            <div class="label" style={`color:${n.color}`}>{String(i + 1).padStart(2, '0')} · {n.label}</div>
-            <p style="margin:8px 0 0;font-size:16px">{n.line}</p>
-          </a>
-        ))}
-      </div>
-    </section>
+  <section class="strip" aria-label="Topics">
+    <button type="button" class="arrow" data-dir="-1" aria-label="Scroll topics left">‹</button>
+    <div class="tags" id="tags">
+      {tagged.map((t) => <a class="chip live" href={url(`topic/${t.slug}/`)}>{topicName(t.slug)} · {t.items.length}</a>)}
+      <a class="chip purple" href={url('tags/')}>All tags, tools and concepts →</a>
+    </div>
+    <button type="button" class="arrow" data-dir="1" aria-label="Scroll topics right">›</button>
+  </section>
 
+  <div class="wrap">
     <section class="section" data-reveal>
       <div class="section-head">
         <span class="label">01 // Latest</span>
@@ -49,9 +106,74 @@ const latest = all.slice(0, 9);
       </div>
     </section>
 
+    <section class="section" data-reveal>
+      <div class="section-head">
+        <span class="label">02 // AI Engineering</span>
+        <h2>How it is built, measured</h2>
+        <p class="lede">Axis I: retrieval, memory, inference, agents and the stack, each written from a measurement with its command and its numbers.</p>
+      </div>
+      <div class="grid g3">
+        {engClusters.map((c) => (
+          <div class="card pad eng">
+            <a class="eng-head" href={url(`clusters/${c.slug}/`)}>
+              <span class="label cyan" style="font-size:11px">{String(c.n).padStart(2, '0')} · {c.items.length} {c.items.length === 1 ? 'article' : 'articles'}</span>
+              <h3>{c.name}</h3>
+            </a>
+            <ul class="links">
+              {c.items.slice(0, 3).map((a) => <li><a href={url(`articles/${a.id}/`)}>{a.data.title}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <a class="btn ghost-btn" href={url('engineering/')}>All engineering →</a>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head">
+        <span class="label green">03 // AI Portfolio</span>
+        <h2>Shipped, with installers</h2>
+      </div>
+      <div class="grid g3">
+        {apps.map((p) => (
+          <div class="card pad app">
+            <div class="app-top"><h3>{p.name}</h3><span class="chip live">{p.status}</span></div>
+            <p class="dim">{p.line}</p>
+            <span class="label ghost" style="font-size:11px;letter-spacing:.08em">{p.stack}</span>
+            <div class="dl">
+              {p.downloads.map((d) => <a class="btn" href={d.href}>{d.label}</a>)}
+              <a class="btn ghost-btn" href={p.repo}>Source →</a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <a class="btn ghost-btn" href={url('portfolio/')}>Systems, repos and games →</a>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-head">
+        <span class="label">04 // By tag</span>
+        <h2>Articles by topic</h2>
+        <p class="lede">Topics are the folders of our research corpus. An article joins a topic when it cites a source from it.</p>
+      </div>
+      <div class="grid g3">
+        {byTag.map((t) => (
+          <div class="card pad eng">
+            <a class="eng-head" href={url(`topic/${t.slug}/`)}>
+              <span class="label green" style="font-size:11px">{t.items.length} articles</span>
+              <h3>{topicName(t.slug)}</h3>
+            </a>
+            <ul class="links">
+              {t.items.slice(0, 4).map((a) => <li><a href={url(`articles/${a.id}/`)}>{a.data.title}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <a class="btn ghost-btn" href={url('tags/')}>All {tagged.length} topics →</a>
+    </section>
+
     <section class="section" id="duality" data-reveal>
       <div class="section-head">
-        <span class="label">02 // Core duality</span>
+        <span class="label">05 // Core duality</span>
         <h2>Alteran and Mecha</h2>
       </div>
       <div class="grid g2">
@@ -74,22 +196,92 @@ const latest = all.slice(0, 9);
       </div>
       <a class="btn ghost-btn" href={url('articles/alterans-and-mechas/')}>Read the full argument →</a>
     </section>
-
-    <section class="section" data-reveal>
-      <div class="section-head">
-        <span class="label">03 // Fourteen clusters, two axes</span>
-        <h2>What this magazine covers</h2>
-        <p class="lede">Axis I is how it is built. Axis II is what intelligence is, and what it must not become.</p>
-      </div>
-      <div class="grid g4">
-        {clusters.map((c) => (
-          <a class="card pad" href={url(`clusters/${c.slug}/`)} style="padding:16px 18px">
-            <div class="label" style={`font-size:11px;color:${c.axis === 'I' ? 'var(--cyan)' : 'var(--green)'}`}>{String(c.n).padStart(2, '0')} · Axis {c.axis}</div>
-            <div style="margin-top:6px;font-size:16px">{c.name}</div>
-            <div class="ghost" style="font-size:13px;margin-top:4px;line-height:1.45">{c.line}</div>
-          </a>
-        ))}
-      </div>
-    </section>
   </div>
 </Base>
+
+<style>
+  /* The fold runs under the sticky nav: pull it up by the nav's height plus its margin. */
+  .fold { position: relative; margin-top: -78px; padding: 128px 0 56px; min-height: 92vh; overflow: hidden; display: flex; align-items: center; }
+  .fold .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .veil {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(90deg, rgba(8,12,16,.92) 0%, rgba(8,12,16,.72) 45%, rgba(8,12,16,.55) 100%),
+      linear-gradient(0deg, var(--void) 0%, rgba(8,12,16,0) 30%);
+  }
+  .fold-inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; gap: 18px; }
+  .fold h1 { font-size: clamp(40px, 6vw, 76px); line-height: 1.02; margin: 0; max-width: 16ch; }
+  .fold .lede { max-width: 58ch; }
+
+  .map { display: grid; grid-template-columns: 1.1fr 1.2fr 1fr; gap: 22px; margin-top: 18px; }
+  .col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .col-label { margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); }
+  .cluster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .entry {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; text-decoration: none; color: var(--fg);
+    background: var(--glass); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent);
+    transition: border-color .2s, box-shadow .2s, transform .2s var(--ease-grow);
+  }
+  .entry:hover { border-color: var(--tone); box-shadow: 0 0 24px color-mix(in srgb, var(--tone) 35%, transparent); transform: translateY(-1px); }
+  .entry.slim { padding: 10px 12px; }
+  .ico {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--tone);
+    background: color-mix(in srgb, var(--tone) 12%, var(--deep)); border: 1px solid color-mix(in srgb, var(--tone) 30%, transparent);
+  }
+  .ico.sm { width: 32px; height: 32px; font-size: 11px; }
+  .txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .t { font-size: 15px; font-weight: 500; line-height: 1.3; }
+  .s { font-size: 12.5px; color: var(--fg-dim); line-height: 1.4; }
+  .more { font-size: 14px; color: var(--cyan); text-decoration: none; margin-top: 2px; }
+  .more:hover { text-decoration: underline; }
+
+  .strip { position: relative; display: flex; align-items: center; gap: 8px; max-width: 1240px; margin: 0 auto; padding: 8px 24px 0; }
+  .tags { display: flex; gap: 10px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 6px 2px; flex: 1; }
+  .tags::-webkit-scrollbar { display: none; }
+  .tags .chip { white-space: nowrap; text-decoration: none; }
+  .arrow { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--edge); background: var(--glass); color: var(--cyan); font-size: 20px; line-height: 1; cursor: pointer; }
+  .arrow:hover { border-color: var(--edge-hover); }
+
+  .eng { display: flex; flex-direction: column; gap: 10px; }
+  .eng-head { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 6px; }
+  .eng-head h3 { margin: 0; font-size: 20px; }
+  .eng-head:hover h3 { color: var(--cyan); }
+  .links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .links li { border-top: 1px solid rgba(0,239,252,.12); }
+  .links a { display: block; padding: 9px 0; color: var(--fg-dim); text-decoration: none; font-size: 14.5px; line-height: 1.4; }
+  .links a:hover { color: var(--cyan); }
+
+  .app { display: flex; flex-direction: column; gap: 12px; }
+  .app-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .app-top h3 { margin: 0; font-size: 22px; }
+  .app .dim { margin: 0; }
+  .dl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+  .dl .btn { padding: 9px 16px; font-size: 12px; }
+
+  @media (max-width: 1000px) {
+    .map { grid-template-columns: 1fr 1fr; }
+    .map .col:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 680px) {
+    .fold { min-height: 0; padding: 112px 0 40px; }
+    .map { grid-template-columns: 1fr; }
+    .cluster-grid { grid-template-columns: 1fr; }
+    .strip { padding: 8px 16px 0; }
+    .arrow { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fold .bg { display: none; }
+    .fold { background: url('/media/hero-poster.jpg') center / cover; }
+  }
+</style>
+
+<script>
+  for (const b of document.querySelectorAll<HTMLButtonElement>('.strip .arrow')) {
+    b.addEventListener('click', () => {
+      const t = document.getElementById('tags');
+      if (t) t.scrollBy({ left: Number(b.dataset.dir) * t.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  }
+</script>
