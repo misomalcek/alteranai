@@ -1,46 +1,65 @@
 ---
-import ArticleCard from './ArticleCard.astro';
 import { categories, clusters } from '../data/site';
-import { url, articles } from '../data/util';
+import { url, articles, readMinutes } from '../data/util';
 
 interface Props { axis: 'I' | 'II'; cats: string[] }
 const { axis, cats } = Astro.props;
-const all = (await articles()).filter((a) => cats.includes(a.data.category));
+const all = (await articles())
+  .filter((a) => cats.includes(a.data.category))
+  .sort((a, b) => +b.data.date - +a.data.date || a.data.title.localeCompare(b.data.title));
 const axisClusters = clusters.filter((c) => c.axis === axis);
 const color = axis === 'I' ? 'var(--purple)' : 'var(--cyan)';
 ---
 <section class="section" data-reveal>
-  <div class="grid g4">
-    {categories.filter((c) => cats.includes(c.slug)).map((c) => (
-      <a class="card pad" href={url(`categories/${c.slug}/`)}>
-        <div class="label" style={`color:${color}`}>Category</div>
-        <div style="font-size:20px;margin-top:6px">{c.name}</div>
-        <p class="dim" style="margin:6px 0 0;font-size:14px">{c.line}</p>
-      </a>
-    ))}
-  </div>
-</section>
-
-<section class="section" data-reveal>
-  <div class="section-head"><span class="label">Articles</span><h2>{all.length} published</h2></div>
-  <div class="grid g3">{all.map((a) => <ArticleCard a={a} />)}</div>
-</section>
-
-<section class="section" data-reveal>
-  <div class="section-head"><span class="label">Clusters · Axis {axis}</span><h2>Where each piece belongs</h2></div>
-  <div class="grid g3">
+  <div class="section-head"><span class="label">{axisClusters.length} clusters · {all.length} articles</span><h2>Read by cluster</h2></div>
+  <div class="clusters">
     {axisClusters.map((c) => {
-      const n = all.filter((a) => a.data.cluster === c.slug).length;
+      const items = all.filter((a) => a.data.cluster === c.slug);
       return (
-        <a class="card pad" href={url(`clusters/${c.slug}/`)}>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
-            <span class="label" style={`font-size:11px;color:${color}`}>{String(c.n).padStart(2, '0')}</span>
-            <span class:list={['chip', { live: n > 0 }]}>{n > 0 ? `${n} live` : 'in preparation'}</span>
-          </div>
-          <div style="font-size:18px;margin-top:8px">{c.name}</div>
-          <p class="dim" style="margin:6px 0 0;font-size:14px">{c.line}</p>
-        </a>
+        <article class="card pad cluster-card">
+          <a class="cluster-head" href={url(`clusters/${c.slug}/`)}>
+            <span class="label" style={`color:${color}`}>{String(c.n).padStart(2, '0')}</span>
+            <h3>{c.name}</h3>
+          </a>
+          <p class="dim cluster-line">{c.line}</p>
+          {items.length > 0 ? (
+            <ol class="cluster-list">
+              {items.map((a) => (
+                <li>
+                  <a href={url(`articles/${a.id}/`)}>{a.data.title}</a>
+                  <span class="meta">{readMinutes(a.body ?? '')} min</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="dim cluster-line">In preparation.</p>
+          )}
+        </article>
       );
     })}
   </div>
 </section>
+
+<section class="section" data-reveal>
+  <div class="section-head"><span class="label">Or by category</span></div>
+  <div class="chips-row">
+    {categories.filter((c) => cats.includes(c.slug)).map((c) => (
+      <a class="chip" href={url(`categories/${c.slug}/`)}>{c.name} · {all.filter((a) => a.data.category === c.slug).length}</a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .clusters { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+  .cluster-card { display: flex; flex-direction: column; gap: 8px; }
+  .cluster-head { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: inherit; }
+  .cluster-head h3 { margin: 0; font-size: 22px; }
+  .cluster-head:hover h3 { color: var(--cyan); }
+  .cluster-line { margin: 0; font-size: 14px; }
+  .cluster-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; }
+  .cluster-list li { display: flex; justify-content: space-between; gap: 14px; padding: 10px 0; border-top: 1px solid var(--edge); }
+  .cluster-list a { color: var(--fg); text-decoration: none; line-height: 1.35; }
+  .cluster-list a:hover { color: var(--cyan); }
+  .cluster-list .meta { font-family: var(--mono); font-size: 11px; opacity: .55; white-space: nowrap; padding-top: 3px; }
+  .chips-row { display: flex; flex-wrap: wrap; gap: 10px; }
+</style>
