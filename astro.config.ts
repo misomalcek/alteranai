@@ -2,10 +2,11 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { remarkAlteran } from './src/lib/remark-alteran';
 
-// GitHub Pages serves the project from /alteranai/ until the domain points here.
-// When alteranai.com is switched to this build: SITE_URL=https://www.alteranai.com SITE_BASE=/
-const site = process.env.SITE_URL ?? 'https://misomalcek.github.io';
-const base = process.env.SITE_BASE ?? '/alteranai';
+// Served from the custom domain root (public/CNAME). The old project URL,
+// misomalcek.github.io/alteranai/, is redirected there by GitHub Pages.
+// To preview under a sub-path instead: SITE_URL=https://misomalcek.github.io SITE_BASE=/alteranai
+const site = process.env.SITE_URL ?? 'https://alteranai.com';
+const base = process.env.SITE_BASE ?? '/';
 
 export default defineConfig({
   site,
