@@ -1,15 +1,16 @@
 ---
-title: "R2 Media Test - All File Types"
-description: "Test post demonstrating all 4 media types from R2 bucket: audio (mp3, m4a), infographics (png), and slides (pdf)"
+title: "R2 Media - Audio, Images & Slides"
+description: "Demonstrating R2 CDN media delivery for alteranai: podcast audio (MP3, M4A), infographics (PNG), and slides (PDF)"
 date: 2026-11-13T00:00:00.000Z
 category: engineering
 cluster: the-stack
-status: draft
+status: published
+topics: ["media-cdn", "r2", "audio", "visuals", "slides"]
 ---
 
-# R2 Media Test - All File Types
+# R2 Media - Audio, Images & Slides
 
-This post tests the R2 CDN integration for alteranai.com, displaying all supported media types directly from the cloudflare R2 bucket.
+This post demonstrates the R2 CDN integration for alteranai.com, delivering various media types directly from the cloudflare R2 bucket.
 
 ## Audio (MP3)
 
@@ -37,13 +38,18 @@ Your browser does not support the audio element.
 
 <iframe
   src="https://media.alteranai.com/alteranai/slides/deck-01.pdf"
-  width="100%" height="600"
+  width="100%" height="800"
   style="border: none;"
 ></iframe>
 
 ---
 
-*All media served from R2 bucket via custom CDN domains:
-- **Audio:** `.mp3` and `.m4a` files play natively with the `<audio>` tag
-- **Infographics:** `.png` images display with lazy loading
-- **Slides:** `.pdf` files embed in an `<iframe>` (CORS configured for fetch access)*
+## Technical Implementation
+
+All media files are served from the R2 bucket via custom domains:
+
+- **Audio** (`.mp3` and `.m4a`): Native `<audio>` elements with playback controls
+- **Infographics** (`.png`): Responsive images with lazy loading via `<img>` tags
+- **Slides** (`.pdf`): Embedded PDF viewers using `<iframe>` with full-width layout
+
+The CDN is configured with proper CORS headers allowing fetch access for PDF.js and other clients.

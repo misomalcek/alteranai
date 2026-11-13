@@ -1,38 +1,47 @@
 ---
-import BaseLayout from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { url, articles, type Article } from '../../data/util';
 
 const base = import.meta.env.BASE_URL;
-const all = await getCollection('articles', ({ data }) => data.status !== 'published');
+const all = await articles();
 
-const counts = {
-  audio: all.filter((a) => a.data.category === 'engineering').length,
-  infographic: 0,
-  pdf: 0,
-};
-
+// Filter for media-related articles (category: engineering which is media)
+const mediaArticles = all.filter((a) => a.data.category === 'engineering');
 ---
-<BaseLayout title="Media · AlteranAI" description="Audio, infographics and slides from R2 bucket">
-  <article class="media-hub">
-    <div class="container">
-      <header class="hub-header">
-        <div class="ds-eyebrow">◆ MEDIA</div>
-        <h1 class="ds-h1">Audio · <span class="ds-gradient-text">Vizuál</span></h1>
-        <p class="ds-body-lg">
-          {counts.audio} media obsahy.
-        </p>
-      </header>
 
-      <section class="media-grid">
-        <a href={`${base}test-r2-media`} class="media-card" style="--mc-accent: var(--ai-violet)">
-          <div class="mc-icon">📤</div>
-          <div class="mc-eyebrow ds-eyebrow">◆ TEST R2 MEDIA</div>
-          <h3 class="mc-title">R2 Media Test Post</h3>
-          <p class="mc-desc">All 4 file types: mp3, m4a, png, pdf</p>
-          <div class="mc-count ds-mono">1 post</div>
-          <span class="mc-arrow">→</span>
-        </a>
-      </section>
-    </div>
-  </article>
-</BaseLayout>
+<Base title="Media Library - AlteranAI" description="Audio, infographics and slides from R2 bucket">
+  <div class="wrap">
+    <header class="stack" style="gap:14px;padding:56px 0 8px" data-reveal>
+      <span class="label">Library · All Media</span>
+      <h1>Media Library</h1>
+      <p class="lede">{mediaArticles.length} media files available: audio, images, slides</p>
+    </header>
+    <section class="section">
+      {mediaArticles.length > 0
+        ? <div class="grid g3">{mediaArticles.map((a) => <ArticleCard a={a} />)}</div>
+        : <div class="card pad"><p class="dim" style="margin:0">No media files uploaded yet. Coming soon...</p></div>}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+  }
+  .lede {
+    font-size: 20px;
+    color: var(--ink-200);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .section {
+    padding: 40px 0;
+  }
+</style>
