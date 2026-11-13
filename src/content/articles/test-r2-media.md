@@ -5,7 +5,6 @@ date: 2026-11-13T00:00:00.000Z
 category: engineering
 cluster: the-stack
 status: published
-topics: ["media-cdn", "r2", "audio", "visuals", "slides"]
 ---
 
 # R2 Media - Audio, Images & Slides
