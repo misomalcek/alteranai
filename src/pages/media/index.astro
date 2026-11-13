@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const all = await getCollection('articles', ({ data }) => !data.draft);
+
+const counts = {
+  audio: all.filter((a) => data(a).content_type === 'audio' || a.data.category === 'media').length,
+  infographic: all.filter((a) => a.data.content_type === 'infographic').length,
+  pdf: all.filter((a) => a.data.content_type === 'pdf').length,
+};
+
+---
+<BaseLayout title="Media · AlteranAI" description="Audio, infographics and slides from R2 bucket">
+  <article class="media-hub">
+    <div class="container">
+      <header class="hub-header">
+        <div class="ds-eyebrow">◆ MEDIA</div>
+        <h1 class="ds-h1">Audio · <span class="ds-gradient-text">Vizuál</span></h1>
+        <p class="ds-body-lg">
+          {counts.audio + counts.infographic + counts.pdf} media obsahy.
+        </p>
+      </header>
+
+      <section class="media-grid">
+        <a href={`${base}test-r2-media`} class="media-card" style="--mc-accent: var(--ai-violet)">
+          <div class="mc-icon">📤</div>
+          <div class="mc-eyebrow ds-eyebrow">◆ TEST R2 MEDIA</div>
+          <h3 class="mc-title">R2 Media Test Post</h3>
+          <p class="mc-desc">All 4 file types: mp3, m4a, png, pdf</p>
+          <div class="mc-count ds-mono">1 post</div>
+          <span class="mc-arrow">→</span>
+        </a>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
