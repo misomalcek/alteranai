@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL;
-const all = await getCollection('articles', ({ data }) => !data.draft);
+const all = await getCollection('articles', ({ data }) => data.status !== 'published');
 
 const counts = {
   audio: all.filter((a) => a.data.category === 'engineering').length,
