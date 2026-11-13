@@ -6,9 +6,9 @@ const base = import.meta.env.BASE_URL;
 const all = await getCollection('articles', ({ data }) => !data.draft);
 
 const counts = {
-  audio: all.filter((a) => data(a).content_type === 'audio' || a.data.category === 'media').length,
-  infographic: all.filter((a) => a.data.content_type === 'infographic').length,
-  pdf: all.filter((a) => a.data.content_type === 'pdf').length,
+  audio: all.filter((a) => a.data.category === 'engineering').length,
+  infographic: 0,
+  pdf: 0,
 };
 
 ---
@@ -19,7 +19,7 @@ const counts = {
         <div class="ds-eyebrow">◆ MEDIA</div>
         <h1 class="ds-h1">Audio · <span class="ds-gradient-text">Vizuál</span></h1>
         <p class="ds-body-lg">
-          {counts.audio + counts.infographic + counts.pdf} media obsahy.
+          {counts.audio} media obsahy.
         </p>
       </header>
 
